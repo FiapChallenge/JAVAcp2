@@ -85,7 +85,7 @@ public class Terminal {
 
         Usuario usuario = login(sb);
 
-        String menu = "1 - Depositar\n2 - Sacar\n3 - Transferir\n4 - Exibir Transações\n5 - Trocar Conta\n6 - Sair\n\nEscolha uma opção:";
+        String menu = "1 - Depositar\n2 - Sacar\n3 - Transferir\n4 - Exibir Transações\n5 - Emitir/Pagar Boleto\n6 - Trocar Conta\n7 - Sair\n\nEscolha uma opção:";
         while (true) {
             // info com nome, e saldo das 2 contas
             // verificar se o usuario tem conta corrente e poupança
@@ -104,7 +104,7 @@ public class Terminal {
 
             int opcao = JOptionPane.showOptionDialog(null, (info + menu), "Banco FinHive", 0,
                     JOptionPane.QUESTION_MESSAGE, usuario.getFoto(),
-                    new String[] { "1", "2", "3", "4", "5", "6" }, "1");
+                    new String[] { "1", "2", "3", "4", "5", "6", "7" }, "1");
             switch (opcao + 1) {
                 case 1:
                     int contaOpcaoDepositar = JOptionPane.showOptionDialog(null, "Escolha uma conta:", "Banco FinHive",
@@ -169,9 +169,60 @@ public class Terminal {
                     }
                     break;
                 case 5:
-                    usuario = login(sb);
+                    int opcaoPagarOuEmitir = JOptionPane.showOptionDialog(null, "Escolha uma opção:", "Banco FinHive",
+                            0,
+                            JOptionPane.QUESTION_MESSAGE, null, new String[] { "Emitir Boleto", "Pagar Boleto" },
+                            "Emitir Boleto");
+                    if (opcaoPagarOuEmitir == 0) {
+                        int contaOpcaoEmitirBoleto = JOptionPane.showOptionDialog(null, "Escolha uma conta:",
+                                "Banco FinHive", 0,
+                                JOptionPane.QUESTION_MESSAGE, null,
+                                new String[] { "Conta Corrente", "Conta Poupança" }, "Conta Corrente");
+                        if (contaOpcaoEmitirBoleto == 0) {
+                            double valorEmitirBoleto = Double.parseDouble(
+                                    JOptionPane.showInputDialog("Digite o valor a ser emitido no boleto:"));
+                            String numeroBoleto = sb.emitirBoleto(usuario.getContaCorrente().getNumero(), valorEmitirBoleto);
+                            JOptionPane.showMessageDialog(null, "Boleto emitido com sucesso!\nNúmero do boleto: " + numeroBoleto);
+                        } else if (contaOpcaoEmitirBoleto == 1) {
+                            double valorEmitirBoleto = Double.parseDouble(
+                                    JOptionPane.showInputDialog("Digite o valor a ser emitido no boleto:"));
+                            String numeroBoleto = sb.emitirBoleto(usuario.getContaPoupanca().getNumero(), valorEmitirBoleto);
+                            JOptionPane.showMessageDialog(null, "Boleto emitido com sucesso!\nNúmero do boleto: " + numeroBoleto);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Opção inválida");
+                        }
+                    } else if (opcaoPagarOuEmitir == 1) {
+                        int contaOpcaoPagarBoleto = JOptionPane.showOptionDialog(null, "Escolha uma conta:",
+                                "Banco FinHive", 0,
+                                JOptionPane.QUESTION_MESSAGE, null,
+                                new String[] { "Conta Corrente", "Conta Poupança" }, "Conta Corrente");
+                        if (contaOpcaoPagarBoleto == 0) {
+                            String numeroBoleto = JOptionPane.showInputDialog("Digite o número do boleto:");
+                            try {
+                                sb.pagarBoleto(usuario.getContaCorrente().getNumero(), numeroBoleto);
+                                JOptionPane.showMessageDialog(null, "Boleto pago com sucesso!");
+                            } catch (Exception e) {
+                                JOptionPane.showMessageDialog(null, e.getMessage());
+                            }
+                        } else if (contaOpcaoPagarBoleto == 1) {
+                            String numeroBoleto = JOptionPane.showInputDialog("Digite o número do boleto:");
+                            try {
+                                sb.pagarBoleto(usuario.getContaPoupanca().getNumero(), numeroBoleto);
+                                JOptionPane.showMessageDialog(null, "Boleto pago com sucesso!");
+                            } catch (Exception e) {
+                                JOptionPane.showMessageDialog(null, e.getMessage());
+                            }
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Opção inválida");
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Opção inválida");
+                    }
                     break;
                 case 6:
+                    usuario = login(sb);
+                    break;
+                case 7:
                     sb.saveData();
                     System.exit(0);
                 default:
