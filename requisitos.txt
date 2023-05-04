@@ -12,5 +12,3 @@ planejamento de investimentos e análise de risco.
 • O assessor financeiro pode acessar a conta de um usuário e fornecer serviços de
 assessoria financeira personalizados.
 
-Sistema -> login
-User -> 

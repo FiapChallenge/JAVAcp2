@@ -11,6 +11,12 @@ import java.util.List;
 
 public class SistemaBancario {
     List<Usuario> usuarios = new ArrayList<Usuario>();
+    
+    public List<Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+
     List<ContaCorrente> contasCorrente = new ArrayList<ContaCorrente>();
     List<ContaPoupanca> contasPoupanca = new ArrayList<ContaPoupanca>();
     List<Boleto> boletos = new ArrayList<Boleto>();
