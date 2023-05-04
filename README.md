@@ -3,6 +3,7 @@
 </h1>
 
 <p align="center">
+<img src="GFX/logo/logo.png" alt="exemplo imagem" width=200>
 </p>
 
 > Repositório utilizado para a entrega do Checkpoint 2 de Domain Driven Design
