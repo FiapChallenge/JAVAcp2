@@ -1,5 +1,5 @@
 <h1 align="center">
-📚<br>HTMLcp2
+📚<br>JAVAcp2
 </h1>
 
 <p align="center">
@@ -24,6 +24,7 @@
 | **Disciplina**   | Domain Driven Design                  |
 | **Professor**    | Thiago T. I. Yamamoto                 |
 | **Turma**        | 1TDSS                                 |
+| **More Info**    | [Pdf do Checkpoint](GFX/cp2.pdf)      |
 
 <h2 name="autores">✍️ Integrantes</h2>
 <table>
