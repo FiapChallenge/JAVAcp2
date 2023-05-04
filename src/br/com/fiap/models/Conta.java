@@ -8,7 +8,7 @@ import java.util.List;
 
 public abstract class Conta {
     String numero;
-    double saldo;
+    double saldo = 0;
     // lista de transacoes
     List<String> transacoes = new ArrayList<String>();
 

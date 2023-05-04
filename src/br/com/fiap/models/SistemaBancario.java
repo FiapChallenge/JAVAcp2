@@ -1,5 +1,8 @@
 package br.com.fiap.models;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -43,7 +46,7 @@ public class SistemaBancario {
         return null;
     }
 
-    public void transferir(String numeroOrigem, String numeroDestino, double valor) throws Exception{
+    public void transferir(String numeroOrigem, String numeroDestino, double valor) throws Exception {
         Conta contaOrigem = buscarConta(numeroOrigem);
         if (contaOrigem == null) {
             System.out.println("Conta de origem não encontrada");
@@ -66,19 +69,33 @@ public class SistemaBancario {
             try {
                 Date dataHoraAtual = new Date();
                 String hora = new SimpleDateFormat("HH:mm:ss").format(dataHoraAtual);
-                contaOrigem.sacar(valor, "Transferencia de R$" + valor + " para a conta " + contaDestino.getNumero() + " as " + hora);
+                contaOrigem.sacar(valor,
+                        "Transferencia de R$" + valor + " para a conta " + contaDestino.getNumero() + " as " + hora);
             } catch (Exception e) {
                 System.out.println("Saldo insuficiente");
                 throw new Exception("Saldo insuficiente");
             }
             Date dataHoraAtual = new Date();
             String hora = new SimpleDateFormat("HH:mm:ss").format(dataHoraAtual);
-            contaDestino.depositar(valor, "Transferencia de R$" + valor + " da conta " + contaOrigem.getNumero() + " as " + hora);
+            contaDestino.depositar(valor,
+                    "Transferencia de R$" + valor + " da conta " + contaOrigem.getNumero() + " as " + hora);
         } else {
             System.out.println("Conta não encontrada");
             throw new Exception("Conta não encontrada");
         }
     }
 
-    
+    public void saveData() {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("data.txt"))) {
+            for (Usuario usuario : usuarios) {
+                String row = usuario.getNome() + " " + usuario.getEmail() + " " + usuario.getSenha() + " "
+                        + usuario.getContaCorrente().getNumero() + " " + usuario.getContaCorrente().getSaldo() + " "
+                        + usuario.getContaPoupanca().getNumero() + " " + usuario.getContaPoupanca().getSaldo() + " " + usuario.getFotopath();
+                bw.write(row);
+                bw.newLine(); // write each line on a new line
+            }
+        } catch (IOException e) {
+            System.out.println("Error writing to file: " + e.getMessage());
+        }
+    }
 }

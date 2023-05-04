@@ -8,12 +8,18 @@ public class Usuario {
     String nome, email, senha;
     ContaCorrente contaCorrente;
     ImageIcon foto;
+    String fotopath = "";
+
+    public String getFotopath() {
+        return fotopath;
+    }
 
     public ImageIcon getFoto() {
         return foto;
     }
 
     public void setFoto(String fotopath) {
+        this.fotopath = fotopath;
         ImageIcon profile = new ImageIcon(fotopath);
         Image image = profile.getImage(); // transform it
         Image newimg = image.getScaledInstance(80, 80, java.awt.Image.SCALE_SMOOTH);
@@ -59,6 +65,7 @@ public class Usuario {
         this.senha = senha;
         this.contaCorrente = contaCorrente;
         this.contaPoupanca = contaPoupanca;
+        this.fotopath = fotopath;
         ImageIcon profile = new ImageIcon(fotopath);
         Image image = profile.getImage(); // transform it
         Image newimg = image.getScaledInstance(80, 80, java.awt.Image.SCALE_SMOOTH);
