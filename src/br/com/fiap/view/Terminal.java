@@ -1,19 +1,28 @@
 package br.com.fiap.view;
 
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 import br.com.fiap.models.*;
 
 public class Terminal {
     static Usuario usuario = null;
+    static ImageIcon icon = new ImageIcon("GFX/logo/logo.png");
 
     public static Usuario login(SistemaBancario sb) {
         while (true) {
-            String email = JOptionPane.showInputDialog("Digite seu email:");
+            Image image = icon.getImage(); // transform it
+            Image newimg = image.getScaledInstance(80, 80, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+            icon = new ImageIcon(newimg);
+            String email = (String) JOptionPane.showInputDialog(null, "Digite seu e-mail", "Banco FinHive",
+                    JOptionPane.QUESTION_MESSAGE, icon, null, null);
             if (email == null) {
                 System.exit(0);
             }
-            String senha = JOptionPane.showInputDialog("Digite sua senha:");
+            String senha = (String) JOptionPane.showInputDialog(null, "Digite sua senha:", "Banco FinHive",
+                    JOptionPane.QUESTION_MESSAGE, icon, null, null);
             if (senha == null) {
                 System.exit(0);
             }
@@ -30,13 +39,13 @@ public class Terminal {
         SistemaBancario sb = new SistemaBancario();
 
         Usuario asteriuz = new Usuario("Asteriuz", "augustobb@live.com", "pandorinha",
-                new ContaCorrente("123", 1000), new ContaPoupanca("10", 5500));
+                new ContaCorrente("123", 1000), new ContaPoupanca("10", 5500), "GFX/profiles/asteriuz.jpg");
         Usuario gabriela = new Usuario("Gabriela", "gabs.gnt@hotmail.com", "carlinhos", new ContaCorrente("456"),
-                new ContaPoupanca("20"));
+                new ContaPoupanca("20"), "GFX/profiles/gabs.jpg");
         Usuario gribl = new Usuario("Gabs", "gribl88@gmail.com", "maya", new ContaCorrente("789", 1600),
-                new ContaPoupanca("30", 1000));
+                new ContaPoupanca("30", 1000), "GFX/profiles/gribl.jpg");
         Usuario queiroz = new Usuario("Queiroz", "queiroz@fiap.com.br", "fiap123", new ContaCorrente("101112", 2000),
-                new ContaPoupanca("40", 2000));
+                new ContaPoupanca("40", 2000), "GFX/profiles/queiroz.jpg");
 
         sb.addUsuario(asteriuz);
         sb.addUsuario(gabriela);
@@ -65,7 +74,7 @@ public class Terminal {
             }
 
             int opcao = JOptionPane.showOptionDialog(null, (info + menu), "Banco FinHive", 0,
-                    JOptionPane.QUESTION_MESSAGE, null,
+                    JOptionPane.QUESTION_MESSAGE, usuario.getFoto(),
                     new String[] { "1", "2", "3", "4", "5", "6" }, "1");
             switch (opcao + 1) {
                 case 1:
