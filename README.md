@@ -1,18 +1,66 @@
-## Getting Started
+<h1 align="center">
+📚<br>HTMLcp2
+</h1>
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+<p align="center">
+</p>
 
-## Folder Structure
+> Repositório utilizado para a entrega do Checkpoint 2 de Domain Driven Design
 
-The workspace contains two folders by default, where:
+<details open>
+  <summary><h3><strong>Índice</strong></h3></summary>
+  <ol>
+    <li><a href="#sobre">Sobre o Checkpoint</a></li>
+    <li><a href="#autores">Integrantes</a></li>
+  </ol>
+</details>
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+<h2 name="sobre">📖 Sobre o Checkpoint</h2>
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+| **CHECKPOINT 2** |                                       |
+| ---------------- | ------------------------------------- |
+| **Curso**        | Análise e Desenvolvimento de Sistemas |
+| **Disciplina**   | Domain Driven Design                  |
+| **Professor**    | Thiago T. I. Yamamoto                 |
+| **Turma**        | 1TDSS                                 |
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+<h2 name="autores">✍️ Integrantes</h2>
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/Asteriuz">
+        <img src="https://avatars.githubusercontent.com/u/89879115?v=4" width="115px;" alt="Foto do Augusto no GitHub"/><br>
+        <sub>
+          <strong>Augusto Barcelos Barros</strong>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/gribl88">
+        <img src="https://avatars.githubusercontent.com/u/126920453?v=4" width="115px;" alt="Foto do Gabriel Gribl no GitHub"/><br>
+        <sub>
+          <strong>Gabriel Gribl de Carvalho</strong>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/GabrielSouzaQ">
+        <img src="https://avatars.githubusercontent.com/u/126726456?v=4" width="115px;" alt="Foto do Gabriel Souza no GitHub"/><br>
+        <sub>
+          <strong>Gabriel Souza de Queiroz</strong>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/GabsBecca">
+        <img src="https://avatars.githubusercontent.com/u/126920756?v=4" width="115px;" alt="Foto da Gabriela no GitHub"/><br>
+        <sub>
+          <strong>Gabriela Zanotto Alves Rodrigues</strong>
+        </sub>
+      </a>
+  </tr>
+</table>
 
-## Dependency Management
+---
 
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+[⬆ Voltar ao topo](#HTMLcp1)
