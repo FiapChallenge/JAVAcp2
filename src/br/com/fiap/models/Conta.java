@@ -28,7 +28,9 @@ public abstract class Conta {
     }
 
     public void depositar(double valor, String... descricao) {
+        valor = Math.round(valor * 100.0) / 100.0;
         this.saldo += valor;
+        this.saldo = Math.round(this.saldo * 100.0) / 100.0;
         Date dataHoraAtual = new Date();
         String hora = new SimpleDateFormat("HH:mm:ss").format(dataHoraAtual);
         if (descricao.length > 0) {
@@ -40,7 +42,9 @@ public abstract class Conta {
 
     public void sacar(double valor, String... descricao) throws Exception {
         if (valor <= this.saldo) {
+            valor = Math.round(valor * 100.0) / 100.0;
             this.saldo -= valor;
+            this.saldo = Math.round(this.saldo * 100.0) / 100.0;
             if (descricao.length > 0) {
                 transacoes.add(descricao[0]);
             } else {

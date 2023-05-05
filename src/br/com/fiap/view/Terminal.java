@@ -48,6 +48,7 @@ public class Terminal {
         /*                             Adding Investimentos                           */
         /* -------------------------------------------------------------------------- */
 
+        sb.addInvestimentoToList(new Investimento("MercadoPago", 500, 0.05, 5));
         sb.addInvestimentoToList(new Investimento("Blizzard", 1000, 0.01, 12));
         sb.addInvestimentoToList(new Investimento("Riot", 1500, 0.02, 20));
         sb.addInvestimentoToList(new Investimento("Microsoft", 2000, 0.5, 30));

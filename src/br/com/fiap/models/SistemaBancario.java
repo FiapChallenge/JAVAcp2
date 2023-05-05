@@ -160,7 +160,7 @@ public class SistemaBancario {
         }
     }
 
-    public void addInvestimento(Usuario usuario, Conta conta, Investimento investimento) throws Exception{
+    public Investimento addInvestimento(Usuario usuario, Conta conta, Investimento investimento) throws Exception {
         Date dataHoraAtual = new Date();
         String hora = new SimpleDateFormat("HH:mm:ss").format(dataHoraAtual);
         try {
@@ -170,11 +170,27 @@ public class SistemaBancario {
             // System.out.println("Saldo insuficiente");
             throw new Exception("Saldo insuficiente");
         }
-        usuario.addInvestimento(investimento);
+        Investimento investimentoReturn = new Investimento(investimento.getNome(), investimento.getValorInicial(),
+                investimento.getJurosPorSegundo(), investimento.getPeriodoSegundos());
+        usuario.addInvestimento(investimentoReturn);
+        return investimentoReturn;
+
     }
 
     public void addInvestimentoToList(Investimento investimento) {
         investimentos.add(investimento);
+    }
+
+    public void removeInvestimento(Usuario usuario, Investimento investimento, Conta conta) {
+        usuario.removeInvestimento(investimento);
+        double novoValor = investimento.getValorInicial() + investimento.calcularLucro();
+        // rounded novo valor to 2 decimal places
+        novoValor = Math.round(novoValor * 100d) / 100d;
+        conta.depositar(
+                 novoValor,
+                "Investimento de R$" + investimento.getValorInicial()
+                        + " retirado de " + investimento.getNome());
+        investimentos.remove(investimento);
     }
 
 }

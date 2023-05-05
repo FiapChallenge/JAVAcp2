@@ -1,8 +1,17 @@
 package br.com.fiap.models;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.util.List;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingWorker;
 
 public class Interface {
     public static int escolhaConta() {
@@ -79,7 +88,6 @@ public class Interface {
                 JOptionPane.showMessageDialog(null, e.getMessage());
                 return;
             }
-            // System.out.println(valor);
             try {
                 usuario.getContaCorrente().sacar(valor);
             } catch (Exception e) {
@@ -215,62 +223,131 @@ public class Interface {
         table.setDefaultEditor(Object.class, null);
         JScrollPane scrollPane = new JScrollPane(table);
 
-        String message = "Por favor, selecione o investimento desejado:";
-        Object[] options = { "OK" };
-        int result = JOptionPane.showOptionDialog(null, scrollPane, message,
-                JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
-                null, options, options[0]);
+        int optionInvestirResgatar = JOptionPane.showOptionDialog(null,
+                "Escolha uma opção:", "Banco FinHive", 0,
+                JOptionPane.QUESTION_MESSAGE, null, new String[] { "Investir", "Resgatar" },
+                "Investir");
 
-        if (result == JOptionPane.OK_OPTION) {
-            int selectedInvestimento = table.getSelectedRow();
-            if (selectedInvestimento == -1) {
-                JOptionPane.showMessageDialog(null, "Nenhum investimento selecionado");
-                return;
-            }
-            Investimento investimento = sb.getInvestimentos().get(selectedInvestimento);
-            int contaOpcaoInvestir = escolhaConta();
-            if (contaOpcaoInvestir == 0) {
-                try {
-                sb.addInvestimento(usuario, usuario.getContaCorrente(), investimento);}
-                catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, e.getMessage());
+        if (optionInvestirResgatar == 0) {
+            String message = "Por favor, selecione o investimento desejado:";
+            Object[] options = { "OK" };
+            int result = JOptionPane.showOptionDialog(null, scrollPane, message,
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
+                    null, options, options[0]);
+
+            if (result == JOptionPane.OK_OPTION) {
+                int selectedInvestimento = table.getSelectedRow();
+                if (selectedInvestimento == -1) {
+                    JOptionPane.showMessageDialog(null, "Nenhum investimento selecionado");
+                    return;
                 }
-            } else if (contaOpcaoInvestir == 1) {
-                try {
-                sb.addInvestimento(usuario, usuario.getContaPoupanca(), investimento);}
-                catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, e.getMessage());
+                Investimento investimento = sb.getInvestimentos().get(selectedInvestimento);
+                int contaOpcaoInvestir = escolhaConta();
+                if (contaOpcaoInvestir == 0) {
+                    try {
+                        investimento = sb.addInvestimento(usuario, usuario.getContaCorrente(), investimento);
+                        investimento.timer();
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(null, e.getMessage());
+                    }
+                } else if (contaOpcaoInvestir == 1) {
+                    try {
+                        investimento = sb.addInvestimento(usuario, usuario.getContaPoupanca(), investimento);
+                        investimento.timer();
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(null, e.getMessage());
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Opção inválida");
+                }
+            }
+        } else if (optionInvestirResgatar == 1) {
+            createProgressBar(usuario.getInvestimentos(), usuario, sb);
+        }
+
+    }
+
+    public static void createProgressBar(List<Investimento> investimentos, Usuario usuario, SistemaBancario sb) {
+        JFrame parent = new JFrame();
+        JPanel panel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        gbc.weightx = 1.0;
+        if (investimentos.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Você não possui investimentos");
+            return;
+        }
+        for (Investimento investimento : investimentos) {
+            // gbc.fill = GridBagConstraints.HORIZONTAL;
+            gbc.gridy++;
+            panel.add(new JLabel("Investimento: " + investimento.getNome()), gbc);
+            gbc.gridy++;
+            JProgressBar progressBar = new JProgressBar();
+            progressBar.setMinimum(0);
+            progressBar.setMaximum((int) investimento.getPeriodoSegundos());
+            progressBar.setStringPainted(true);
+            panel.add(progressBar, gbc);
+
+            SwingWorker<Void, Integer> worker = new SwingWorker<Void, Integer>() {
+                @Override
+                protected Void doInBackground() throws Exception {
+                    if (!(investimento.getSegundosAtual() == investimento.getPeriodoSegundos())) {
+                        for (int i = 0; i <= investimento.getPeriodoSegundos(); i++) {
+                            progressBar.setValue(investimento.getSegundosAtual());
+                            progressBar.setString("Tempo restante: "
+                                    + (investimento.getPeriodoSegundos() - investimento.getSegundosAtual())
+                                    + " segundos");
+                            Thread.sleep(1000);
+                        }
+                    }
+                    progressBar.setValue(investimento.getPeriodoSegundos());
+                    progressBar.setString("Resgate disponível!");
+                    return null;
+                }
+            };
+
+            worker.execute();
+
+        }
+
+        Object[] options = { "Resgatar Disponíveis", "Cancelar" };
+        int option = JOptionPane.showOptionDialog(parent, panel, "Investimentos - Banco FinHive",
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+
+        if (option == JOptionPane.OK_OPTION) {
+            int contaEscolha = escolhaConta();
+            if (contaEscolha == 0) {
+                for (Investimento investimento : investimentos) {
+                    if (investimento.getSegundosAtual() == investimento.getPeriodoSegundos()) {
+                        try {
+                            sb.removeInvestimento(usuario, investimento, usuario.getContaCorrente());
+                            return;
+                        } catch (Exception e) {
+                            JOptionPane.showMessageDialog(null, e.getMessage());
+                        }
+                    }
+                }
+            } else if (contaEscolha == 1) {
+                for (Investimento investimento : investimentos) {
+                    if (investimento.getSegundosAtual() == investimento.getPeriodoSegundos()) {
+                        try {
+                            sb.removeInvestimento(usuario, investimento, usuario.getContaPoupanca());
+                            return;
+                        } catch (Exception e) {
+                            JOptionPane.showMessageDialog(null, e.getMessage());
+                        }
+                    }
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Opção inválida");
             }
-            
-
+        } else if (option == JOptionPane.CANCEL_OPTION) {
+            return;
+        } else {
+            JOptionPane.showMessageDialog(null, "Opção inválida");
         }
-
-        // String investimentosTxt = String.format("%-8s%-50s%-20s%-20s%-20s\n", "ID",
-        // "Nome", "Valor Inicial",
-        // "Juros (s)", "Periodo (s)");
-        // int index = 1;
-        // for (Investimento investimento : sb.getInvestimentos()) {
-        // investimentosTxt += String.format("%-8s%-50s%-20s%-20s%-20s\n",
-        // Integer.toString(index), investimento.getNome(),
-        // investimento.getValorInicial(), investimento.getJurosPorSegundo(),
-        // investimento.getPeriodoSegundos());
-        // index++;
-        // }
-
-        // int opcaoInvestir = JOptionPane.showOptionDialog(null, "Escolha uma opção:",
-        // "Banco FinHive",
-        // 0,
-        // JOptionPane.QUESTION_MESSAGE, null, new String[] { "Investir", "Resgatar" },
-        // "Investir");
-        // if (opcaoInvestir == 0) {
-        // int opcaoInvestimento = JOptionPane.showOptionDialog(null,
-        // (investimentosTxt), "Banco FinHive", 0,
-        // JOptionPane.QUESTION_MESSAGE, null,
-        // new String[] { "1", "2", "3" }, "1");
-        // }
     }
 
     public static void assessoria(Usuario usuario, SistemaBancario sb) {

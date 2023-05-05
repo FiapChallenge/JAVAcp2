@@ -95,4 +95,8 @@ public class Usuario {
     public void addInvestimento(Investimento investimento) {
         investimentos.add(investimento);
     }
+
+    public void removeInvestimento(Investimento investimento) {
+        investimentos.remove(investimento);
+    }
 }

@@ -1,4 +1,4 @@
-Asteriuz augustobb@live.com pandorinha 123 419.0 10 4490.0 GFX/profiles/asteriuz.png
+Asteriuz augustobb@live.com pandorinha 123 4270.17 10 3100.0 GFX/profiles/asteriuz.png
 Gabriela gabs.gnt@hotmail.com carlinhos 456 11100.0 20 6000.0 GFX/profiles/gabs.png
 Gabs gribl88@gmail.com maya 789 1600.0 30 1000.0 GFX/profiles/gribl.png
 Queiroz queiroz@fiap.com.br SouzaS 101112 2000.0 40 2000.0 GFX/profiles/queiroz.png
