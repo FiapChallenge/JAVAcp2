@@ -11,15 +11,19 @@ import java.util.List;
 
 public class SistemaBancario {
     List<Usuario> usuarios = new ArrayList<Usuario>();
-    
+
     public List<Usuario> getUsuarios() {
         return usuarios;
     }
 
-
     List<ContaCorrente> contasCorrente = new ArrayList<ContaCorrente>();
     List<ContaPoupanca> contasPoupanca = new ArrayList<ContaPoupanca>();
     List<Boleto> boletos = new ArrayList<Boleto>();
+    List<Investimento> investimentos = new ArrayList<Investimento>();
+
+    public List<Investimento> getInvestimentos() {
+        return investimentos;
+    }
 
     public void addUsuario(Usuario usuario) {
         usuarios.add(usuario);
@@ -54,55 +58,60 @@ public class SistemaBancario {
         return null;
     }
 
-    public void transferir(String numeroOrigem, String numeroDestino, double valor, boolean... isBoleto) throws Exception {
+    public void transferir(String numeroOrigem, String numeroDestino, double valor, boolean... isBoleto)
+            throws Exception {
         Conta contaOrigem = buscarConta(numeroOrigem);
         if (contaOrigem == null) {
-            System.out.println("Conta de origem não encontrada");
+            // System.out.println("Conta de origem não encontrada");
             throw new Exception("Conta de origem não encontrada");
         }
         if (isBoleto.length == 0 || isBoleto[0] == false) {
-        if (contaOrigem instanceof ContaPoupanca) {
-            System.out.println("Conta de origem não é corrente");
-            throw new Exception("Conta de origem não é corrente");
+            if (contaOrigem instanceof ContaPoupanca) {
+                // System.out.println("Conta de origem não é corrente");
+                throw new Exception("Conta de origem não é corrente");
+            }
         }
-    }
         Conta contaDestino = buscarConta(numeroDestino);
         if (contaDestino == null) {
-            System.out.println("Conta de destino não encontrada");
+            // System.out.println("Conta de destino não encontrada");
             throw new Exception("Conta de destino não encontrada");
         }
         if (isBoleto.length == 0 || isBoleto[0] == false) {
-        if (contaDestino instanceof ContaPoupanca) {
-            System.out.println("Conta de destino não é corrente");
-            throw new Exception("Conta de destino não é corrente");
+            if (contaDestino instanceof ContaPoupanca) {
+                // System.out.println("Conta de destino não é corrente");
+                throw new Exception("Conta de destino não é corrente");
+            }
         }
-    }
         if (contaOrigem != null && contaDestino != null) {
             try {
                 Date dataHoraAtual = new Date();
                 String hora = new SimpleDateFormat("HH:mm:ss").format(dataHoraAtual);
                 if (isBoleto.length == 0 || isBoleto[0] == false) {
-                contaOrigem.sacar(valor,
-                        "Transferencia feita de R$" + valor + " para a conta " + contaDestino.getNumero() + " as " + hora);
+                    contaOrigem.sacar(valor,
+                            "Transferencia feita de R$" + valor + " para a conta " + contaDestino.getNumero() + " as "
+                                    + hora);
                 } else if (isBoleto[0] == true) {
                     contaOrigem.sacar(valor,
-                            "Pagamento feito de boleto de R$" + valor + " para a conta " + contaDestino.getNumero() + " as " + hora);
+                            "Pagamento feito de boleto de R$" + valor + " para a conta " + contaDestino.getNumero()
+                                    + " as " + hora);
                 }
             } catch (Exception e) {
-                System.out.println("Saldo insuficiente");
+                // System.out.println("Saldo insuficiente");
                 throw new Exception("Saldo insuficiente");
             }
             Date dataHoraAtual = new Date();
             String hora = new SimpleDateFormat("HH:mm:ss").format(dataHoraAtual);
             if (isBoleto.length == 0 || isBoleto[0] == false) {
-            contaDestino.depositar(valor,
-                    "Transferencia recebida de R$" + valor + " da conta " + contaOrigem.getNumero() + " as " + hora);
+                contaDestino.depositar(valor,
+                        "Transferencia recebida de R$" + valor + " da conta " + contaOrigem.getNumero() + " as "
+                                + hora);
             } else if (isBoleto[0] == true) {
                 contaDestino.depositar(valor,
-                        "Pagamento recebido de boleto de R$" + valor + " da conta " + contaOrigem.getNumero() + " as " + hora);
+                        "Pagamento recebido de boleto de R$" + valor + " da conta " + contaOrigem.getNumero() + " as "
+                                + hora);
             }
         } else {
-            System.out.println("Conta não encontrada");
+            // System.out.println("Conta não encontrada");
             throw new Exception("Conta não encontrada");
         }
     }
@@ -129,25 +138,43 @@ public class SistemaBancario {
             throw new Exception("Boleto não encontrado");
         }
         try {
-        this.transferir(numeroOrigem, boleto.getBeneficiario(), boleto.getValor(), true);
-        boleto.pagar();
+            this.transferir(numeroOrigem, boleto.getBeneficiario(), boleto.getValor(), true);
+            boleto.pagar();
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
     }
-
 
     public void saveData() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter("data.txt"))) {
             for (Usuario usuario : usuarios) {
                 String row = usuario.getNome() + " " + usuario.getEmail() + " " + usuario.getSenha() + " "
                         + usuario.getContaCorrente().getNumero() + " " + usuario.getContaCorrente().getSaldo() + " "
-                        + usuario.getContaPoupanca().getNumero() + " " + usuario.getContaPoupanca().getSaldo() + " " + usuario.getFotopath();
+                        + usuario.getContaPoupanca().getNumero() + " " + usuario.getContaPoupanca().getSaldo() + " "
+                        + usuario.getFotopath();
                 bw.write(row);
                 bw.newLine(); // write each line on a new line
             }
         } catch (IOException e) {
-            System.out.println("Error writing to file: " + e.getMessage());
+            // System.out.println("Error writing to file: " + e.getMessage());
         }
     }
+
+    public void addInvestimento(Usuario usuario, Conta conta, Investimento investimento) throws Exception{
+        Date dataHoraAtual = new Date();
+        String hora = new SimpleDateFormat("HH:mm:ss").format(dataHoraAtual);
+        try {
+            conta.sacar(investimento.getValorInicial(), "Investimento de R$" + investimento.getValorInicial()
+                    + " feito em " + investimento.getNome() + " as " + hora);
+        } catch (Exception e) {
+            // System.out.println("Saldo insuficiente");
+            throw new Exception("Saldo insuficiente");
+        }
+        usuario.addInvestimento(investimento);
+    }
+
+    public void addInvestimentoToList(Investimento investimento) {
+        investimentos.add(investimento);
+    }
+
 }

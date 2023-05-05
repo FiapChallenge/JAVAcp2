@@ -1,12 +1,16 @@
 package br.com.fiap.models;
 
 import java.awt.Image;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 
 public class Usuario {
     String nome, email, senha;
     ContaCorrente contaCorrente;
+    ContaPoupanca contaPoupanca;
+    List<Investimento> investimentos = new ArrayList<Investimento>();
     ImageIcon foto;
     String fotopath = "";
 
@@ -30,7 +34,6 @@ public class Usuario {
         return contaCorrente;
     }
 
-    ContaPoupanca contaPoupanca;
 
     public ContaPoupanca getContaPoupanca() {
         return contaPoupanca;
@@ -85,4 +88,11 @@ public class Usuario {
         return senha;
     }
 
+    public List<Investimento> getInvestimentos() {
+        return investimentos;
+    }
+
+    public void addInvestimento(Investimento investimento) {
+        investimentos.add(investimento);
+    }
 }

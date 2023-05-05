@@ -44,6 +44,18 @@ public class Terminal {
 
         SistemaBancario sb = new SistemaBancario();
 
+        /* -------------------------------------------------------------------------- */
+        /*                             Adding Investimentos                           */
+        /* -------------------------------------------------------------------------- */
+
+        sb.addInvestimentoToList(new Investimento("Blizzard", 1000, 0.01, 12));
+        sb.addInvestimentoToList(new Investimento("Riot", 1500, 0.02, 20));
+        sb.addInvestimentoToList(new Investimento("Microsoft", 2000, 0.5, 30));
+
+        /* -------------------------------------------------------------------------- */
+        /*                              Adding Usuarios                               */
+        /* -------------------------------------------------------------------------- */
+
         // Usuario asteriuz = new Usuario("Asteriuz", "augustobb@live.com",
         // "pandorinha",
         // new ContaCorrente("123", 1000), new ContaPoupanca("10", 5500),
@@ -85,6 +97,10 @@ public class Terminal {
                     new ContaPoupanca(row.get(5), Double.parseDouble(row.get(6))), row.get(7)));
         }
 
+        /* -------------------------------------------------------------------------- */
+        /*                           Login and Entering Menu                          */
+        /* -------------------------------------------------------------------------- */
+
         if (debug) {
             usuario = sb.getUsuarios().get(0);
         } else {
@@ -92,7 +108,7 @@ public class Terminal {
         }
 
         String menu = "1 - Depositar\n2 - Sacar\n3 - Transferir\n4 - Exibir Transações\n5 - Emitir/Pagar Boleto\n6 - Investimento\n7 - Serviço Assessoria\n8 - Trocar Conta\n9 - Sair\n\nEscolha uma opção:";
-        while (true) {       
+        while (true) {
             int opcao = Interface.menu(menu, usuario);
             switch (opcao + 1) {
                 case 1:
@@ -111,8 +127,10 @@ public class Terminal {
                     Interface.boleto(usuario, sb);
                     break;
                 case 6:
+                    Interface.investir(usuario, sb);
                     break;
                 case 7:
+                    Interface.assessoria(usuario, sb);
                     break;
                 case 8:
                     usuario = login(sb);
