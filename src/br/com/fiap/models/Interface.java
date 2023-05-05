@@ -12,6 +12,7 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingWorker;
+import javax.swing.table.DefaultTableCellRenderer;
 
 public class Interface {
     public static int escolhaConta() {
@@ -35,17 +36,12 @@ public class Interface {
 
     public static int menu(String menu, Usuario usuario) {
         String info;
-        if (usuario.getContaCorrente() == null) {
-            info = "Nome: " + usuario.getNome() + "\n" + "Conta Poupança: "
-                    + usuario.getContaPoupanca().getSaldo() + "\n\n";
-        } else if (usuario.getContaPoupanca() == null) {
-            info = "Nome: " + usuario.getNome() + "\n" + "Conta Corrente: "
-                    + usuario.getContaCorrente().getSaldo() + "\n\n";
-        } else {
-            info = "Nome: " + usuario.getNome() + "\n" + "Conta Corrente: "
-                    + usuario.getContaCorrente().getSaldo() + "\n" + "Conta Poupança: "
-                    + usuario.getContaPoupanca().getSaldo() + "\n\n";
-        }
+        info = "Nome: " + usuario.getNome() + "\n" + "Conta Corrente: "
+                + "R$" +usuario.getContaCorrente().getSaldo() + "\n" + "Numero da conta: "
+                + usuario.getContaCorrente().getNumero() + "\n\n"
+                + "Conta Poupança: "
+                + "R$" +usuario.getContaPoupanca().getSaldo() + "\n" + "Numero da conta: "
+                + usuario.getContaPoupanca().getNumero() + "\n\n";
 
         int opcao = JOptionPane.showOptionDialog(null, (info + menu), "Banco FinHive", 0,
                 JOptionPane.QUESTION_MESSAGE, usuario.getFoto(),
@@ -205,21 +201,30 @@ public class Interface {
 
     public static void investir(Usuario usuario, SistemaBancario sb) {
 
-        String[] columnNames = { "ID", "Nome", "Valor Inicial", "Juros (s)", "Período (segundos)" };
+        String[] columnNames = {"Nome", "Valor Inicial", "Juros (s)", "Período (s)" };
         Object[][] rowData = new Object[sb.getInvestimentos().size()][5];
         int index = 0;
         for (Investimento investimento : sb.getInvestimentos()) {
-            rowData[index][0] = index;
-            rowData[index][1] = investimento.getNome();
-            rowData[index][2] = investimento.getValorInicial();
-            rowData[index][3] = investimento.getJurosPorSegundo();
-            rowData[index][4] = investimento.getPeriodoSegundos();
+            rowData[index][0] = investimento.getNome();
+            rowData[index][1] = investimento.getValorInicial();
+            rowData[index][2] = investimento.getJurosPorSegundo();
+            rowData[index][3] = investimento.getPeriodoSegundos();
             index++;
         }
 
         JTable table = new JTable(rowData, columnNames);
         table.setPreferredScrollableViewportSize(table.getPreferredSize());
         table.setFillsViewportHeight(true);
+        table.getColumnModel().getColumn(0).setPreferredWidth(150);
+        table.getColumnModel().getColumn(1).setPreferredWidth(125);
+        table.getColumnModel().getColumn(2).setPreferredWidth(125);
+        table.getColumnModel().getColumn(3).setPreferredWidth(125);
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        table.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+        table.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+        table.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+        table.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
         table.setDefaultEditor(Object.class, null);
         JScrollPane scrollPane = new JScrollPane(table);
 
@@ -351,6 +356,86 @@ public class Interface {
     }
 
     public static void assessoria(Usuario usuario, SistemaBancario sb) {
+        int option = JOptionPane.showOptionDialog(null,
+                "Escolha uma opção:", "Banco FinHive", 0,
+                JOptionPane.QUESTION_MESSAGE, null,
+                new String[] { "Calcular Impostos", "Planejamento de Investimento", "Análise de risco" },
+                "Calcular Impostos");
+        switch (option) {
+            case 0:
+                calcularImpostos(usuario, sb);
+                break;
+            case 1:
+                planejamentoInvestimento(usuario, sb);
+                break;
+            case 2:
+                analiseRisco(usuario, sb);
+                break;
+            default:
+                break;
+        }
+    }
+
+    public static void calcularImpostos(Usuario usuario, SistemaBancario sb) {
+        double renda = Double.parseDouble(JOptionPane.showInputDialog(null, "Digite seu salário bruto: "));
+        int dependentes = Integer.parseInt(JOptionPane.showInputDialog(null, "Digite o número de dependentes: "));
+        double imposto = 0;
+        double inss = 0;
+
+        double aliquota1 = 0.075;
+        double aliquota2 = 0.09;
+        double aliquota3 = 0.12;
+        double aliquota4 = 0.14;
+        double teto = 828.39;
+
+        if (renda <= 1302.00) {
+            inss = renda * aliquota1;
+        } else if (renda <= 2571.29) {
+            double salarioFaixa1 = 1302.00;
+            double salarioFaixa2 = renda - 1302.00;
+            inss = salarioFaixa1 * aliquota1 + salarioFaixa2 * aliquota2;
+        } else if (renda <= 3856.94) {
+            double salarioFaixa1 = 1302.00;
+            double salarioFaixa2 = 2571.29 - 1302.00;
+            double salarioFaixa3 = renda - 2571.29;
+            inss = salarioFaixa1 * aliquota1 + salarioFaixa2 * aliquota2 + salarioFaixa3 * aliquota3;
+        } else if (renda <= 7507.94) {
+            double salarioFaixa1 = 1302.00;
+            double salarioFaixa2 = 2571.29 - 1302.00;
+            double salarioFaixa3 = 3856.94 - 2571.29;
+            double salarioFaixa4 = renda - 3856.94;
+            inss = salarioFaixa1 * aliquota1 + salarioFaixa2 * aliquota2 + salarioFaixa3 * aliquota3
+                    + salarioFaixa4 * aliquota4;
+        } else {
+            inss = teto;
+        }
+        renda -= inss;
+        renda -= dependentes * 189.59;
+
+        if (renda <= 1903.98) {
+            imposto = 0;
+        } else if (renda <= 2826.65) {
+            imposto = renda * 0.075 - 142.80;
+        } else if (renda <= 3751.05) {
+            imposto = renda * 0.15 - 354.80;
+        } else if (renda <= 4664.68) {
+            imposto = renda * 0.225 - 636.13;
+        } else {
+            imposto = renda * 0.275 - 869.36;
+        }
+
+        inss = Math.round(inss * 100.0) / 100.0;
+        imposto = Math.round(imposto * 100.0) / 100.0;
+
+        JOptionPane.showMessageDialog(null, "Imposto de renda: R$" + imposto + "\n\nDesconto do INSS: R$" + inss);
+
+    }
+
+    public static void planejamentoInvestimento(Usuario usuario, SistemaBancario sb) {
+
+    }
+
+    public static void analiseRisco(Usuario usuario, SistemaBancario sb) {
 
     }
 }

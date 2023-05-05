@@ -187,10 +187,50 @@ public class SistemaBancario {
         // rounded novo valor to 2 decimal places
         novoValor = Math.round(novoValor * 100d) / 100d;
         conta.depositar(
-                 novoValor,
+                novoValor,
                 "Investimento de R$" + investimento.getValorInicial()
                         + " retirado de " + investimento.getNome());
         investimentos.remove(investimento);
+    }
+
+    public ContaCorrente createNewContaCorrente() {
+        // create new number
+        int newNumber = 0;
+        boolean numberExists = true;
+        while (numberExists) {
+            newNumber = (int) (Math.random() * 999);
+            numberExists = false;
+            for (Usuario usuarioTeste : usuarios) {
+                if (usuarioTeste.getContaCorrente().getNumero() == Integer.toString(newNumber)) {
+                    numberExists = true;
+                }
+                if (usuarioTeste.getContaPoupanca().getNumero() == Integer.toString(newNumber)) {
+                    numberExists = true;
+                }
+            }
+        }
+        ContaCorrente contaCorrente = new ContaCorrente(Integer.toString(newNumber));
+        return contaCorrente;
+    }
+
+    public ContaPoupanca createNewContaPoupanca() {
+        // create new number
+        int newNumber = 0;
+        boolean numberExists = true;
+        while (numberExists) {
+            newNumber = (int) (Math.random() * 999);
+            numberExists = false;
+            for (Usuario usuarioTeste : usuarios) {
+                if (usuarioTeste.getContaPoupanca().getNumero() == Integer.toString(newNumber)) {
+                    numberExists = true;
+                }
+                if (usuarioTeste.getContaCorrente().getNumero() == Integer.toString(newNumber)) {
+                    numberExists = true;
+                }
+            }
+        }
+        ContaPoupanca contaPoupanca = new ContaPoupanca(Integer.toString(newNumber));
+        return contaPoupanca;
     }
 
 }
