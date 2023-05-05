@@ -13,8 +13,12 @@ public abstract class Conta {
     List<String> transacoes = new ArrayList<String>();
 
     public String getTransacoesFormatted() {
-        Collections.reverse(transacoes);
-        return String.join("\n", transacoes);
+        if (!(transacoes.isEmpty())) {
+            Collections.reverse(transacoes);
+            return String.join("\n", transacoes);
+        } else {
+            return "Nenhuma transação realizada";
+        }
     }
 
     public Conta(String numero) {
