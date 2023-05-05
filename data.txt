@@ -3,4 +3,5 @@ Gabriela gabs.gnt@hotmail.com carlinhos 456 11100.0 20 6000.0 GFX/profiles/gabs.
 Gabs gribl88@gmail.com maya 789 1600.0 30 1000.0 GFX/profiles/gribl.png
 Queiroz queiroz@fiap.com.br SouzaS 101112 2000.0 40 2000.0 GFX/profiles/queiroz.png
 Thiago thiagoyama@fiap.com.br fiap123 001 10000.0 50 200000.0 GFX/profiles/thiago.png
-Augusto gutocebola@gmail.com pandorinha 424 13000.0 508 2000.0 GFX/profiles/defaultAvatar.png
+Augusto gutocebola@gmail.com pandorinha 683 0.0 851 0.0 C:\Users\augus\Documents\oneStore.png
+teste teste teste 212 0.0 844 10138.14 C:\Users\augus\Documents\oneStore.png

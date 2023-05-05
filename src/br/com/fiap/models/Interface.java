@@ -6,6 +6,8 @@ import java.awt.Image;
 import java.util.List;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -71,6 +73,7 @@ public class Interface {
 
     public static void cadastrar(SistemaBancario sb) {
         while (true) {
+
             ImageIcon icon = new ImageIcon("GFX/logo/logo.png");
             Image image = icon.getImage();
             Image newimg = image.getScaledInstance(80, 80, java.awt.Image.SCALE_SMOOTH);
@@ -101,6 +104,21 @@ public class Interface {
             JTextField textField3 = new JTextField(10);
             textField3.setPreferredSize(new java.awt.Dimension(200, 24));
             panel.add(textField3, gbc);
+            gbc.gridy++;
+            panel.add(new JLabel("(Opcional) Adicione uma foto:"), gbc);
+            gbc.gridy++;
+            JButton button = new JButton("Selecionar");
+            button.setPreferredSize(new java.awt.Dimension(200, 24));
+            panel.add(button, gbc);
+            JFileChooser file = new JFileChooser();
+            file.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            button.addActionListener(e -> {
+                file.showOpenDialog(null);
+                if (file.getSelectedFile() != null) {
+                    button.setText(file.getSelectedFile().getName());
+                }
+            });
+            gbc.gridy++;
             int result = JOptionPane.showOptionDialog(null, panel, "Banco FinHive",
                     JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE,
                     icon, new String[] { "OK", "Cancelar" }, "OK");
@@ -118,6 +136,14 @@ public class Interface {
             if (sb.buscarUsuario(email) != null) {
                 JOptionPane.showMessageDialog(null, "Email já cadastrado");
                 continue;
+            }
+
+            if (file.getSelectedFile() != null) {
+                sb.addUsuario(
+                        new Usuario(nome, email, senha, sb.createNewContaCorrente(), sb.createNewContaPoupanca(),
+                                file));
+                JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso");
+                return;
             }
             sb.addUsuario(
                     new Usuario(nome, email, senha, sb.createNewContaCorrente(), sb.createNewContaPoupanca(),
@@ -489,8 +515,20 @@ public class Interface {
     }
 
     public static void calcularImpostos(Usuario usuario, SistemaBancario sb) {
-        double renda = Double.parseDouble(JOptionPane.showInputDialog(null, "Digite seu salário bruto: "));
-        int dependentes = Integer.parseInt(JOptionPane.showInputDialog(null, "Digite o número de dependentes: "));
+        double renda;
+        try {
+            renda = Double.parseDouble(JOptionPane.showInputDialog(null, "Digite seu salário bruto: "));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Valor inválido");
+            return;
+        }
+        int dependentes;
+        try {
+            dependentes = Integer.parseInt(JOptionPane.showInputDialog(null, "Digite o número de dependentes: "));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Valor inválido");
+            return;
+        }
         double imposto = 0;
         double inss = 0;
 
