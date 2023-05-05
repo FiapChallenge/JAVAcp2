@@ -2,8 +2,10 @@ package br.com.fiap.models;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -11,10 +13,120 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableCellRenderer;
 
 public class Interface {
+    public static Usuario login(SistemaBancario sb) {
+        ImageIcon icon = new ImageIcon("GFX/logo/logo.png");
+        while (true) {
+            Image image = icon.getImage();
+            Image newimg = image.getScaledInstance(80, 80, java.awt.Image.SCALE_SMOOTH);
+            icon = new ImageIcon(newimg);
+
+            JPanel panel = new JPanel(new GridBagLayout());
+            panel.setPreferredSize(new java.awt.Dimension(200, 100));
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.gridx = 0;
+            gbc.gridy = 0;
+            gbc.anchor = GridBagConstraints.LINE_START;
+            gbc.fill = GridBagConstraints.HORIZONTAL;
+            gbc.weightx = 1.0;
+            panel.add(new JLabel("Digite seu email:"), gbc);
+            gbc.gridy++;
+            JTextField textField = new JTextField(10);
+            textField.setPreferredSize(new java.awt.Dimension(200, 24));
+            panel.add(textField, gbc);
+            int result = JOptionPane.showOptionDialog(null, panel, "Banco FinHive",
+                    JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE,
+                    icon, new String[] { "OK", "Cadastrar", "Cancelar" }, "OK");
+
+            if (result == 2) {
+                System.exit(0);
+            }
+
+            if (result == 1) {
+                cadastrar(sb);
+            } else {
+
+                String email = textField.getText();
+                if (email == null) {
+                    System.exit(0);
+                }
+                String senha = (String) JOptionPane.showInputDialog(null, "Digite sua senha:", "Banco FinHive",
+                        JOptionPane.QUESTION_MESSAGE, icon, null, null);
+                if (senha == null) {
+                    System.exit(0);
+                }
+                Usuario usuario = sb.buscarUsuario(email);
+                if (usuario == null || !usuario.getSenha().equals(senha)) {
+                    JOptionPane.showMessageDialog(null, "Usuário ou senha inválidos");
+                    continue;
+                }
+                return usuario;
+            }
+        }
+    }
+
+    public static void cadastrar(SistemaBancario sb) {
+        while (true) {
+            ImageIcon icon = new ImageIcon("GFX/logo/logo.png");
+            Image image = icon.getImage();
+            Image newimg = image.getScaledInstance(80, 80, java.awt.Image.SCALE_SMOOTH);
+            icon = new ImageIcon(newimg);
+
+            JPanel panel = new JPanel(new GridBagLayout());
+            panel.setPreferredSize(new java.awt.Dimension(200, 150));
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.gridx = 0;
+            gbc.gridy = 0;
+            gbc.anchor = GridBagConstraints.LINE_START;
+            gbc.fill = GridBagConstraints.HORIZONTAL;
+            gbc.weightx = 1.0;
+            panel.add(new JLabel("Digite seu nome:"), gbc);
+            gbc.gridy++;
+            JTextField textField = new JTextField(10);
+            textField.setPreferredSize(new java.awt.Dimension(200, 24));
+            panel.add(textField, gbc);
+            gbc.gridy++;
+            panel.add(new JLabel("Digite seu email:"), gbc);
+            gbc.gridy++;
+            JTextField textField2 = new JTextField(10);
+            textField2.setPreferredSize(new java.awt.Dimension(200, 24));
+            panel.add(textField2, gbc);
+            gbc.gridy++;
+            panel.add(new JLabel("Digite sua senha:"), gbc);
+            gbc.gridy++;
+            JTextField textField3 = new JTextField(10);
+            textField3.setPreferredSize(new java.awt.Dimension(200, 24));
+            panel.add(textField3, gbc);
+            int result = JOptionPane.showOptionDialog(null, panel, "Banco FinHive",
+                    JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE,
+                    icon, new String[] { "OK", "Cancelar" }, "OK");
+
+            if (result == 1) {
+                System.exit(0);
+            }
+
+            String nome = textField.getText();
+            String email = textField2.getText();
+            String senha = textField3.getText();
+            if (nome == null || email == null || senha == null) {
+                System.exit(0);
+            }
+            if (sb.buscarUsuario(email) != null) {
+                JOptionPane.showMessageDialog(null, "Email já cadastrado");
+                continue;
+            }
+            sb.addUsuario(
+                    new Usuario(nome, email, senha, sb.createNewContaCorrente(), sb.createNewContaPoupanca(),
+                            "GFX/profiles/defaultAvatar.png"));
+            JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso");
+            return;
+        }
+    }
+
     public static int escolhaConta() {
         return JOptionPane.showOptionDialog(null, "Escolha uma conta:", "Banco FinHive", 0,
                 JOptionPane.QUESTION_MESSAGE, null, new String[] { "Conta Corrente", "Conta Poupança" },
@@ -37,10 +149,10 @@ public class Interface {
     public static int menu(String menu, Usuario usuario) {
         String info;
         info = "Nome: " + usuario.getNome() + "\n" + "Conta Corrente: "
-                + "R$" +usuario.getContaCorrente().getSaldo() + "\n" + "Numero da conta: "
+                + "R$" + usuario.getContaCorrente().getSaldo() + "\n" + "Numero da conta: "
                 + usuario.getContaCorrente().getNumero() + "\n\n"
                 + "Conta Poupança: "
-                + "R$" +usuario.getContaPoupanca().getSaldo() + "\n" + "Numero da conta: "
+                + "R$" + usuario.getContaPoupanca().getSaldo() + "\n" + "Numero da conta: "
                 + usuario.getContaPoupanca().getNumero() + "\n\n";
 
         int opcao = JOptionPane.showOptionDialog(null, (info + menu), "Banco FinHive", 0,
@@ -201,7 +313,7 @@ public class Interface {
 
     public static void investir(Usuario usuario, SistemaBancario sb) {
 
-        String[] columnNames = {"Nome", "Valor Inicial", "Juros (s)", "Período (s)" };
+        String[] columnNames = { "Nome", "Valor Inicial", "Juros (s)", "Período (s)" };
         Object[][] rowData = new Object[sb.getInvestimentos().size()][5];
         int index = 0;
         for (Investimento investimento : sb.getInvestimentos()) {

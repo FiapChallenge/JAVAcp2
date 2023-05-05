@@ -10,16 +10,15 @@ import java.util.Date;
 import java.util.List;
 
 public class SistemaBancario {
-    List<Usuario> usuarios = new ArrayList<Usuario>();
+    private List<Usuario> usuarios = new ArrayList<Usuario>();
+    private List<ContaCorrente> contasCorrente = new ArrayList<ContaCorrente>();
+    private List<ContaPoupanca> contasPoupanca = new ArrayList<ContaPoupanca>();
+    private List<Boleto> boletos = new ArrayList<Boleto>();
+    private List<Investimento> investimentos = new ArrayList<Investimento>();
 
     public List<Usuario> getUsuarios() {
         return usuarios;
     }
-
-    List<ContaCorrente> contasCorrente = new ArrayList<ContaCorrente>();
-    List<ContaPoupanca> contasPoupanca = new ArrayList<ContaPoupanca>();
-    List<Boleto> boletos = new ArrayList<Boleto>();
-    List<Investimento> investimentos = new ArrayList<Investimento>();
 
     public List<Investimento> getInvestimentos() {
         return investimentos;
