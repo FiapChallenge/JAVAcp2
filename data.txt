@@ -1,4 +1,4 @@
-Asteriuz;augustobb@live.com;pandorinha;123;80000.0;10;2100.0;GFX/profiles/asteriuz.png;true;false;[04:05:49|2000.0|Transferencia feita|123|456, 04:12:24|10000.0|Recebido de boleto|456|123]
+Asteriuz;augustobb@live.com;pandorinha;123;750.0;10;7000.0;GFX/profiles/asteriuz.png;true;false;[04:05:49|2000.0|Transferencia feita|123|456, 04:12:24|10000.0|Recebido de boleto|456|123]
 Gabriela;gabs.gnt@hotmail.com;carlinhos;456;25100.0;20;6000.0;GFX/profiles/gabs.png;true;false;[04:05:49|2000.0|Transferencia recebida|123|456, 04:12:24|10000.0|Pagamento de boleto|456|123]
 Gabs;gribl88@gmail.com;maya;789;4600.0;30;1000.0;GFX/profiles/gribl.png;true;true;[]
 Queiroz;queiroz@fiap.com.br;SouzaS;101112;5000.0;40;2000.0;GFX/profiles/queiroz.png;true;false;[]

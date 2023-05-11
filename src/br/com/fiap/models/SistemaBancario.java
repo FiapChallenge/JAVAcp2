@@ -248,18 +248,14 @@ public class SistemaBancario {
 
     public void removeInvestimento(Usuario usuario, Investimento investimento, Conta conta) {
         usuario.removeInvestimento(investimento);
-        double novoValor = investimento.getValorInicial() + investimento.calcularLucro();
-        // rounded novo valor to 2 decimal places
-        novoValor = Math.round(novoValor * 100d) / 100d;
-        conta.depositar(
-                novoValor,
-                "Investimento de R$" + investimento.getValorInicial()
-                        + " retirado de " + investimento.getNome());
+        double valor = investimento.calcularTotal();
+        valor = Math.round(valor * 100d) / 100d;
+        conta.depositar(valor, "Recebido R$" + valor + " do investimento " + investimento.getNome() + " (Lucro de R$"
+                + (valor - investimento.getValorInicial()) + ")");
         investimentos.remove(investimento);
     }
 
     public ContaCorrente createNewContaCorrente() {
-        // create new number
         int newNumber = 0;
         boolean numberExists = true;
         while (numberExists) {

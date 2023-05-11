@@ -1,5 +1,6 @@
 package br.com.fiap.models;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -494,7 +495,7 @@ public class Interface {
         } else if (option == JOptionPane.CANCEL_OPTION) {
             return;
         } else {
-            JOptionPane.showMessageDialog(null, "Opção inválida");
+            return;
         }
     }
 
@@ -587,10 +588,43 @@ public class Interface {
     }
 
     public static void planejamentoInvestimento(Usuario usuario, SistemaBancario sb) {
+        // crie de novo a tabela de investimento mas dessa vez com o lucro
+        String[] colunas = { "Nome", "Valor", "Período (s)", "Resgate Total", "Lucro", "Resgate %" };
+        Object[][] dados = new Object[sb.getInvestimentos().size()][colunas.length];
+        int i = 0;
+        for (Investimento investimento : sb.getInvestimentos()) {
+            dados[i][0] = investimento.getNome();
+            dados[i][1] = "R$" + Double.toString(investimento.getValorInicial());
+            dados[i][2] = Integer.toString(investimento.getPeriodoSegundos());
+            dados[i][3] = "R$" + Double.toString(investimento.calcularTotal());
+            dados[i][4] = "R$" + Double.toString(investimento.calcularTotal() - investimento.getValorInicial());
+            dados[i][5] = Integer.toString((int) Math.round(investimento.calcularTotal() / investimento.getValorInicial() * 100.0)) + "%";
+            i++;
+        }
+        JTable tabela = new JTable(dados, colunas);
+        tabela.setPreferredScrollableViewportSize(tabela.getPreferredSize());
+        tabela.setFillsViewportHeight(true);
+        tabela.getColumnModel().getColumn(0).setPreferredWidth(150);
+        tabela.getColumnModel().getColumn(1).setPreferredWidth(120);
+        tabela.getColumnModel().getColumn(2).setPreferredWidth(80);
+        tabela.getColumnModel().getColumn(3).setPreferredWidth(150);
+        tabela.getColumnModel().getColumn(4).setPreferredWidth(150);
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        for (int index = 0; index < tabela.getColumnCount(); index++) {
+            tabela.getColumnModel().getColumn(index).setCellRenderer(centerRenderer);
+        }
+        tabela.setDefaultEditor(Object.class, null);
+        JScrollPane scrollPane = new JScrollPane(tabela);
+        // aumentar apenas a largura
+        scrollPane.setPreferredSize(new Dimension(scrollPane.getPreferredSize().width + 200,
+                scrollPane.getPreferredSize().height + 20));
+        JOptionPane.showMessageDialog(null, scrollPane, "Banco FinHive", JOptionPane.PLAIN_MESSAGE, null);
 
     }
 
     public static void analiseRisco(Usuario usuario, SistemaBancario sb) {
-
+        JOptionPane.showMessageDialog(null, "Investimentos do Banco FinHive são a prova de risco!");
+        
     }
 }

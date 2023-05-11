@@ -19,11 +19,11 @@ public class App {
         sb.addInvestimentoToList(new Investimento("MercadoPago", 500, 0.05, 5));
         sb.addInvestimentoToList(new Investimento("Blizzard", 1000, 0.01, 12));
         sb.addInvestimentoToList(new Investimento("Riot", 1500, 0.02, 20));
-        sb.addInvestimentoToList(new Investimento("Microsoft", 2000, 0.5, 30));
-        sb.addInvestimentoToList(new Investimento("Apple", 2500, 0.75, 40));
-        sb.addInvestimentoToList(new Investimento("Google", 3000, 0.9, 50));
-        sb.addInvestimentoToList(new Investimento("Facebook", 3500, 0.95, 60));
-
+        sb.addInvestimentoToList(new Investimento("Microsoft", 2000, 0.05, 30));
+        sb.addInvestimentoToList(new Investimento("Apple", 2500, 0.075, 40));
+        sb.addInvestimentoToList(new Investimento("Google", 3000, 0.09, 50));
+        sb.addInvestimentoToList(new Investimento("Facebook", 3500, 0.095, 60));
+        
         /* -------------------------------------------------------------------------- */
         /* Adding Usuarios */
         /* -------------------------------------------------------------------------- */
@@ -77,7 +77,7 @@ public class App {
         }
 
         /* -------------------------------------------------------------------------- */
-        /* Login and Entering Menu */
+        /*                      Login and Entering Menu                               */
         /* -------------------------------------------------------------------------- */
 
         if (debug) {

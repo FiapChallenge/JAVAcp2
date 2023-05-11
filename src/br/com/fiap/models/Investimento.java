@@ -5,6 +5,7 @@ import javax.swing.SwingWorker;
 public class Investimento {
     private String nome;
     private int segundosAtual = 0;
+
     public int getSegundosAtual() {
         return segundosAtual;
     }
@@ -61,7 +62,7 @@ public class Investimento {
         System.out.println("Valor inicial: " + valorInicial);
         System.out.println("Juros por segundo: " + jurosPorSegundo);
         System.out.println("Periodo em segundos: " + periodoSegundos);
-        System.out.println("Lucro: " + calcularLucro());
+        System.out.println("Lucro: " + calcularTotal());
     }
 
     public void timer() {
@@ -80,12 +81,7 @@ public class Investimento {
         worker1.execute();
     }
 
-    public double calcularLucro() {
-        if (segundosAtual == periodoSegundos) {
-            double lucro = valorInicial * Math.pow(1 + jurosPorSegundo, periodoSegundos) - valorInicial;
-            return lucro;
-        } else {
-            return 0;
-        }
+    public double calcularTotal() {
+        return valorInicial + (valorInicial * jurosPorSegundo * periodoSegundos);
     }
 }
