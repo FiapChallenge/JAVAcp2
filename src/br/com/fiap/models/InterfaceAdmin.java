@@ -133,10 +133,15 @@ public class InterfaceAdmin {
                 int opcaoConta2 = JOptionPane.showOptionDialog(null, scrollPane2,
                         "Banco FinHive" + " - " + usuario.getNome(), 0,
                         JOptionPane.QUESTION_MESSAGE, null,
-                        new String[] { "Voltar" }, "Voltar");
-                if (opcaoConta2 == 0) {
+                        new String[] { "Limpar transações suspeitas","Voltar" }, "Voltar");
+                if (opcaoConta2 == 1) {
                     return;
+                } else if (opcaoConta2 == 0) {
+                    usuario.getTransacoesSuspeitas().clear();
+                    usuario.setSuspeito(false);
+                    JOptionPane.showMessageDialog(null, "Transações suspeitas limpas com sucesso");
                 }
+
 
             }
 
