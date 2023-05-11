@@ -16,7 +16,12 @@ public class Usuario {
     ContaCorrente contaCorrente;
     ContaPoupanca contaPoupanca;
     List<Investimento> investimentos = new ArrayList<Investimento>();
-    List<String> transacaoSuspeita = new ArrayList<String>();
+    List<String> transacoesSuspeitas = new ArrayList<String>();
+
+    public List<String> getTransacoesSuspeitas() {
+        return transacoesSuspeitas;
+    }
+
     ImageIcon foto;
     Boolean bloqueado = false;
 
@@ -131,7 +136,7 @@ public class Usuario {
         this.foto = new ImageIcon(newimg);
         this.suspeito = suspeito;
         this.bloqueado = bloqueado;
-        this.transacaoSuspeita = transacoesSuspeitas;
+        this.transacoesSuspeitas = transacoesSuspeitas;
     }
 
     public Usuario(String nome, String email, String senha, ContaCorrente contaCorrente, ContaPoupanca contaPoupanca,
@@ -183,5 +188,17 @@ public class Usuario {
 
     public void removeInvestimento(Investimento investimento) {
         investimentos.remove(investimento);
+    }
+
+    public void addTransacaoSuspeita(String transacao) {
+        transacoesSuspeitas.add(transacao);
+        suspeito = true;
+    }
+
+    public void removeTransacaoSuspeita(String transacao) {
+        transacoesSuspeitas.remove(transacao);
+        if (transacoesSuspeitas.isEmpty()) {
+            suspeito = false;
+        }
     }
 }

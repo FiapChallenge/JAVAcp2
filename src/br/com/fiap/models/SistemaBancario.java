@@ -5,8 +5,6 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -91,13 +89,23 @@ public class SistemaBancario {
                 Date dataHoraAtual = new Date();
                 String hora = new SimpleDateFormat("HH:mm:ss").format(dataHoraAtual);
                 if (isBoleto.length == 0 || isBoleto[0] == false) {
-                    contaOrigem.sacar(valor,
-                            "Transferencia feita de R$" + valor + " para a conta " + contaDestino.getNumero() + " as "
-                                    + hora);
+                    String descricao = "Transferencia feita de R$" + valor + " para a conta " + contaDestino.getNumero()
+                            + " as " + hora;
+                    if (valor > 1000) {
+                        Usuario usuario = getUsuarioByAccountNumber(numeroOrigem);
+                        usuario.addTransacaoSuspeita(hora + "|" + valor + "|" + "Transferencia feita" + "|"
+                                + contaOrigem.getNumero() + "|" + contaDestino.getNumero());
+                    }
+                    contaOrigem.sacar(valor, descricao);
                 } else if (isBoleto[0] == true) {
-                    contaOrigem.sacar(valor,
-                            "Pagamento feito de boleto de R$" + valor + " para a conta " + contaDestino.getNumero()
-                                    + " as " + hora);
+                    String descricao = "Pagamento feito de boleto de R$" + valor + " para a conta "
+                            + contaDestino.getNumero() + " as " + hora;
+                    if (valor > 1000) {
+                        Usuario usuario = getUsuarioByAccountNumber(numeroOrigem);
+                        usuario.addTransacaoSuspeita(hora + "|" + valor + "|" + "Pagamento de boleto" + "|"
+                                + contaOrigem.getNumero() + "|" + contaDestino.getNumero());
+                    }
+                    contaOrigem.sacar(valor, descricao);
                 }
             } catch (Exception e) {
                 // System.out.println("Saldo insuficiente");
@@ -106,18 +114,44 @@ public class SistemaBancario {
             Date dataHoraAtual = new Date();
             String hora = new SimpleDateFormat("HH:mm:ss").format(dataHoraAtual);
             if (isBoleto.length == 0 || isBoleto[0] == false) {
-                contaDestino.depositar(valor,
-                        "Transferencia recebida de R$" + valor + " da conta " + contaOrigem.getNumero() + " as "
-                                + hora);
+                String descricao = "Transferencia recebida de R$" + valor + " da conta " + contaOrigem.getNumero()
+                        + " as " + hora;
+                if (valor > 1000) {
+                    Usuario usuario = getUsuarioByAccountNumber(numeroDestino);
+                    usuario.addTransacaoSuspeita(hora + "|" + valor + "|" + "Transferencia recebida" + "|"
+                            + contaOrigem.getNumero() + "|" + contaDestino.getNumero());
+                }
+                contaDestino.depositar(valor, descricao);
             } else if (isBoleto[0] == true) {
-                contaDestino.depositar(valor,
-                        "Pagamento recebido de boleto de R$" + valor + " da conta " + contaOrigem.getNumero() + " as "
-                                + hora);
+                String descricao = "Pagamento recebido de boleto de R$" + valor + " da conta " + contaOrigem.getNumero()
+                        + " as " + hora;
+                if (valor > 1000) {
+                    Usuario usuario = getUsuarioByAccountNumber(numeroDestino);
+                    usuario.addTransacaoSuspeita(hora + "|" + valor + "|" + "Recebido de boleto" + "|"
+                            + contaOrigem.getNumero() + "|" + contaDestino.getNumero());
+                }
+                contaDestino.depositar(valor, descricao);
             }
         } else {
             // System.out.println("Conta não encontrada");
             throw new Exception("Conta não encontrada");
         }
+    }
+
+    public Usuario getUsuarioByAccountNumber(String numeroConta) {
+        for (Usuario usuario : usuarios) {
+            if (usuario.contaCorrente != null) {
+                if (usuario.contaCorrente.getNumero().equals(numeroConta)) {
+                    return usuario;
+                }
+            }
+            if (usuario.contaPoupanca != null) {
+                if (usuario.contaPoupanca.getNumero().equals(numeroConta)) {
+                    return usuario;
+                }
+            }
+        }
+        return null;
     }
 
     public String emitirBoleto(String numeroBeneficiario, double valor) {
@@ -161,10 +195,17 @@ public class SistemaBancario {
             System.out.println("Erro ao ler arquivo");
         }
         for (List<String> row : data) {
+            List<String> transacoesSuspeitas = new ArrayList<>();
+            if (row.size() > 10 && row.get(10) != null && !row.get(10).equals("[]")) {
+                String[] transacoes = row.get(10).replace("[", "").replace("]", "").split(",");
+                for (String transacao : transacoes) {
+                    transacoesSuspeitas.add(transacao.trim());
+                }
+            }
             addUsuario(new Usuario(row.get(0), row.get(1), row.get(2),
                     new ContaCorrente(row.get(3), Double.parseDouble(row.get(4))),
                     new ContaPoupanca(row.get(5), Double.parseDouble(row.get(6))), row.get(7),
-                    Boolean.parseBoolean(row.get(8)), Boolean.parseBoolean(row.get(9))));
+                    Boolean.parseBoolean(row.get(8)), Boolean.parseBoolean(row.get(9)), transacoesSuspeitas));
         }
     }
 
@@ -174,7 +215,8 @@ public class SistemaBancario {
                 String row = usuario.getNome() + ";" + usuario.getEmail() + ";" + usuario.getSenha() + ";"
                         + usuario.getContaCorrente().getNumero() + ";" + usuario.getContaCorrente().getSaldo() + ";"
                         + usuario.getContaPoupanca().getNumero() + ";" + usuario.getContaPoupanca().getSaldo() + ";"
-                        + usuario.getFotopath() + ";" + usuario.getSuspeito() + ";" + usuario.getBloqueado();
+                        + usuario.getFotopath() + ";" + usuario.getSuspeito() + ";" + usuario.getBloqueado() + ";"
+                        + usuario.getTransacoesSuspeitas();
                 bw.write(row);
                 bw.newLine(); // write each line on a new line
             }
