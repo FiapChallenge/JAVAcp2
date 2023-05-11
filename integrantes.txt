@@ -1,3 +1,8 @@
+INFO:
+Classe App possui 2 atributos booleans:
+Admin True -> Fluxo Alternativo para bloquear, desbloquear e exibir Transações suspeitas
+Debug -> Começar logado ou Começar na tela de login
+
 Contas que podem ser utilizadas sem precisar cadastrar:
 Email: augustobb@live.com      | Senha: pandorinhha
 Email: gabs.gnt@hotmail.com    | Senha: carlinhos
