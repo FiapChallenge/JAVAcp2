@@ -44,7 +44,7 @@ Fluxo Básico
 - [x] O sistema registra as transações realizadas pelo usuário e atualiza o saldo da conta.
 - [x] O usuário pode acessar serviços de assessoria financeira, como cálculo de impostos,
         planejamento de investimentos e análise de risco.
--   [] O assessor financeiro pode acessar a conta de um usuário e fornecer serviços de
+- [] O assessor financeiro pode acessar a conta de um usuário e fornecer serviços de
     assessoria financeira personalizados.
     Fluxo Alternativo
 
