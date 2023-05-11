@@ -1,10 +1,15 @@
 package br.com.fiap.models;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -144,13 +149,32 @@ public class SistemaBancario {
         }
     }
 
+    public void loadData() {
+        List<List<String>> data = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader("data.txt"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] values = line.split(";");
+                data.add(Arrays.asList(values));
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao ler arquivo");
+        }
+        for (List<String> row : data) {
+            addUsuario(new Usuario(row.get(0), row.get(1), row.get(2),
+                    new ContaCorrente(row.get(3), Double.parseDouble(row.get(4))),
+                    new ContaPoupanca(row.get(5), Double.parseDouble(row.get(6))), row.get(7),
+                    Boolean.parseBoolean(row.get(8)), Boolean.parseBoolean(row.get(9))));
+        }
+    }
+
     public void saveData() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter("data.txt"))) {
             for (Usuario usuario : usuarios) {
-                String row = usuario.getNome() + " " + usuario.getEmail() + " " + usuario.getSenha() + " "
-                        + usuario.getContaCorrente().getNumero() + " " + usuario.getContaCorrente().getSaldo() + " "
-                        + usuario.getContaPoupanca().getNumero() + " " + usuario.getContaPoupanca().getSaldo() + " "
-                        + usuario.getFotopath();
+                String row = usuario.getNome() + ";" + usuario.getEmail() + ";" + usuario.getSenha() + ";"
+                        + usuario.getContaCorrente().getNumero() + ";" + usuario.getContaCorrente().getSaldo() + ";"
+                        + usuario.getContaPoupanca().getNumero() + ";" + usuario.getContaPoupanca().getSaldo() + ";"
+                        + usuario.getFotopath() + ";" + usuario.getSuspeito() + ";" + usuario.getBloqueado();
                 bw.write(row);
                 bw.newLine(); // write each line on a new line
             }

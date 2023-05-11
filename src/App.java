@@ -1,23 +1,15 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import javax.swing.UIManager;
 
 import br.com.fiap.models.*;
 
 public class App {
     static boolean debug = true;
+    static boolean admin = true;
 
     public static void main(String[] args) throws IOException {
         UIManager.put("Button.defaultButtonFollowsFocus", Boolean.TRUE);
         Usuario usuarioLogado = null;
-
         SistemaBancario sb = new SistemaBancario();
 
         /* -------------------------------------------------------------------------- */
@@ -57,28 +49,31 @@ public class App {
 
         // sb.saveData();
 
-        String filePath = "./data.txt";
-        try (InputStream in = App.class.getResourceAsStream("/data.txt");
-                BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
-            // Use resource
-        }
-        List<List<String>> data = new ArrayList<>();
+        sb.loadData();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] values = line.split("\\s+");
-                List<String> row = Arrays.asList(values);
-                data.add(row);
+        /* -------------------------------------------------------------------------- */
+        /*                                 Fluxo Admin                                */
+        /* -------------------------------------------------------------------------- */
+        
+        if (admin) {
+            Boolean voltar = false;
+            while (voltar == false) {
+                int opcao = InterfaceAdmin.menu();
+                switch (opcao + 1) {
+                    case 1:
+                        sb.saveData();
+                        System.exit(0);
+                    case 2:
+                        InterfaceAdmin.exibirUsuarios(sb);
+                        break;
+                    case 3:
+                        voltar = true;
+                        break;
+                    default:
+                        sb.saveData();
+                        System.exit(0);
+                }
             }
-        } catch (IOException e) {
-            System.out.println("Error importing file: " + e.getMessage());
-        }
-
-        for (List<String> row : data) {
-            sb.addUsuario(new Usuario(row.get(0), row.get(1), row.get(2),
-                    new ContaCorrente(row.get(3), Double.parseDouble(row.get(4))),
-                    new ContaPoupanca(row.get(5), Double.parseDouble(row.get(6))), row.get(7)));
         }
 
         /* -------------------------------------------------------------------------- */
@@ -90,6 +85,7 @@ public class App {
         } else {
             usuarioLogado = Interface.login(sb);
         }
+
 
         String menu = "1 - Depositar\n2 - Sacar\n3 - Transferir\n4 - Exibir Transações\n5 - Emitir/Pagar Boleto\n6 - Investimento\n7 - Serviço Assessoria\n8 - Trocar Conta\n9 - Sair\n\nEscolha uma opção:";
         while (true) {

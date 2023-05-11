@@ -16,7 +16,28 @@ public class Usuario {
     ContaCorrente contaCorrente;
     ContaPoupanca contaPoupanca;
     List<Investimento> investimentos = new ArrayList<Investimento>();
+    List<String> transacaoSuspeita = new ArrayList<String>();
     ImageIcon foto;
+    Boolean bloqueado = false;
+
+    public Boolean getBloqueado() {
+        return bloqueado;
+    }
+
+    public void setBloqueado(Boolean bloqueado) {
+        this.bloqueado = bloqueado;
+    }
+
+    Boolean suspeito = false;
+
+    public Boolean getSuspeito() {
+        return suspeito;
+    }
+
+    public void setSuspeito(Boolean suspeito) {
+        this.suspeito = suspeito;
+    }
+
     String fotopath = "";
 
     public String getFotopath() {
@@ -78,6 +99,39 @@ public class Usuario {
         Image newimg = image.getScaledInstance(80, 80, java.awt.Image.SCALE_SMOOTH);
 
         this.foto = new ImageIcon(newimg);
+    }
+
+    public Usuario(String nome, String email, String senha, ContaCorrente contaCorrente, ContaPoupanca contaPoupanca,
+            String fotopath, Boolean suspeito, Boolean bloqueado) {
+        this.nome = nome;
+        this.email = email;
+        this.senha = senha;
+        this.contaCorrente = contaCorrente;
+        this.contaPoupanca = contaPoupanca;
+        this.fotopath = fotopath;
+        ImageIcon profile = new ImageIcon(fotopath);
+        Image image = profile.getImage();
+        Image newimg = image.getScaledInstance(80, 80, java.awt.Image.SCALE_SMOOTH);
+        this.foto = new ImageIcon(newimg);
+        this.suspeito = suspeito;
+        this.bloqueado = bloqueado;
+    }
+
+    public Usuario(String nome, String email, String senha, ContaCorrente contaCorrente, ContaPoupanca contaPoupanca,
+            String fotopath, Boolean suspeito, Boolean bloqueado, List<String> transacoesSuspeitas) {
+        this.nome = nome;
+        this.email = email;
+        this.senha = senha;
+        this.contaCorrente = contaCorrente;
+        this.contaPoupanca = contaPoupanca;
+        this.fotopath = fotopath;
+        ImageIcon profile = new ImageIcon(fotopath);
+        Image image = profile.getImage();
+        Image newimg = image.getScaledInstance(80, 80, java.awt.Image.SCALE_SMOOTH);
+        this.foto = new ImageIcon(newimg);
+        this.suspeito = suspeito;
+        this.bloqueado = bloqueado;
+        this.transacaoSuspeita = transacoesSuspeitas;
     }
 
     public Usuario(String nome, String email, String senha, ContaCorrente contaCorrente, ContaPoupanca contaPoupanca,

@@ -43,7 +43,9 @@ public class Interface {
             int result = JOptionPane.showOptionDialog(null, panel, "Banco FinHive",
                     JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE,
                     icon, new String[] { "OK", "Cadastrar", "Cancelar" }, "OK");
-
+            if (result == -1) {
+                System.exit(0);
+            }
             if (result == 2) {
                 System.exit(0);
             }
@@ -64,6 +66,10 @@ public class Interface {
                 Usuario usuario = sb.buscarUsuario(email);
                 if (usuario == null || !usuario.getSenha().equals(senha)) {
                     JOptionPane.showMessageDialog(null, "Usuário ou senha inválidos");
+                    continue;
+                }
+                if (usuario.getBloqueado()) {
+                    JOptionPane.showMessageDialog(null, "           Usuário bloqueado\nEntre em contato com o suporte");
                     continue;
                 }
                 return usuario;
@@ -354,15 +360,14 @@ public class Interface {
         table.setPreferredScrollableViewportSize(table.getPreferredSize());
         table.setFillsViewportHeight(true);
         table.getColumnModel().getColumn(0).setPreferredWidth(150);
-        table.getColumnModel().getColumn(1).setPreferredWidth(125);
-        table.getColumnModel().getColumn(2).setPreferredWidth(125);
-        table.getColumnModel().getColumn(3).setPreferredWidth(125);
+        for (int i = 1; i < table.getColumnCount(); i++) {
+            table.getColumnModel().getColumn(i).setPreferredWidth(125);
+        }
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-        table.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
-        table.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
-        table.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
-        table.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
+        for (int i = 0; i < table.getColumnCount(); i++) {
+            table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
         table.setDefaultEditor(Object.class, null);
         JScrollPane scrollPane = new JScrollPane(table);
 
