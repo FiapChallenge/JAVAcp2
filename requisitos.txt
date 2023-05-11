@@ -1,4 +1,5 @@
-O usuário faz login no sistema.
+Fluxo Básico
+• O usuário faz login no sistema.
 • O sistema exibe a página inicial com as informações da conta do usuário.
 • O usuário pode visualizar o saldo da conta, extrato de transações e investimentos.
 • O usuário pode realizar uma transferência bancária informando o valor e dados do
@@ -11,4 +12,6 @@ valor.
 planejamento de investimentos e análise de risco.
 • O assessor financeiro pode acessar a conta de um usuário e fornecer serviços de
 assessoria financeira personalizados.
-
+Fluxo Alternativo
+• O administrador pode acessar o sistema e gerenciar as contas dos usuários,
+realizando operações como bloqueio de conta e verificação de transações suspeitas.

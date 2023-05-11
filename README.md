@@ -31,10 +31,27 @@
 
 O projeto ainda está em desenvolvimento e as próximas atualizações serão voltadas nas seguintes tarefas:
 
-- [x] + de 30 comandos
-- [x] Audio Visualizer quando a Wake Word for detectada
-- [ ] Natural Language Processing
-- [ ] Versão Offline
+Fluxo Básico
+
+-   [x] O usuário faz login no sistema.
+-   [x] O sistema exibe a página inicial com as informações da conta do usuário.
+-   [x] O usuário pode visualizar o saldo da conta, extrato de transações e investimentos.
+-   [x] O usuário pode realizar uma transferência bancária informando o valor e dados do
+        destinatário.
+-   [x] O usuário pode realizar um pagamento de boleto informando os dados do boleto e
+        valor.
+-   [x] O usuário pode realizar um investimento informando o valor e tipo de investimento.
+-   [x] O sistema registra as transações realizadas pelo usuário e atualiza o saldo da conta.
+-   [x] O usuário pode acessar serviços de assessoria financeira, como cálculo de impostos,
+        planejamento de investimentos e análise de risco.
+-   [] O assessor financeiro pode acessar a conta de um usuário e fornecer serviços de
+    assessoria financeira personalizados.
+    Fluxo Alternativo
+
+Fluxo Alternativo
+
+-   [x] O administrador pode acessar o sistema e gerenciar as contas dos usuários,
+        realizando operações como bloqueio de conta e verificação de transações suspeitas.
 
 <h2 name="autores">✍️ Integrantes</h2>
 <table>
