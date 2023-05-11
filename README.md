@@ -1,7 +1,7 @@
 <h1 align="center">
-📚<br>JAVAcp2
+💳<br>JAVAcp2
 </h1>
-
+ 
 <p align="center">
 <img src="GFX/logo/logo.png" alt="exemplo imagem" width=200>
 </p>
@@ -12,6 +12,7 @@
   <summary><h3><strong>Índice</strong></h3></summary>
   <ol>
     <li><a href="#sobre">Sobre o Checkpoint</a></li>
+    <li><a href="#requisitos">Requisitos</a></li>
     <li><a href="#autores">Integrantes</a></li>
   </ol>
 </details>
@@ -25,6 +26,15 @@
 | **Professor**    | Thiago T. I. Yamamoto                 |
 | **Turma**        | 1TDSS                                 |
 | **More Info**    | [Pdf do Checkpoint](GFX/cp2.pdf)      |
+
+<h2 name="requisitos">⚙️ Requisitos</h2>
+
+O projeto ainda está em desenvolvimento e as próximas atualizações serão voltadas nas seguintes tarefas:
+
+- [x] + de 30 comandos
+- [x] Audio Visualizer quando a Wake Word for detectada
+- [ ] Natural Language Processing
+- [ ] Versão Offline
 
 <h2 name="autores">✍️ Integrantes</h2>
 <table>
