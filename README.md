@@ -28,12 +28,19 @@
 | **More Info**    | [Pdf do Checkpoint](GFX/cp2.pdf)      |
 
 <h2 name="como-usar">🕹️ Como usar</h2>
-Classe com main: App.java
-
-Classe App possui 3 atributos booleans:
-Admin True -> Fluxo Alternativo para bloquear, desbloquear e exibir Transações suspeitas
-Debug -> Começar logado ou Começar na tela de login
-Assessor -> Começar logado como Assessor (conta do Assessor, Email: assessor@hotmail.com | Senha: assessor
+INFO:<br>
+Classe com main: App.java<br>
+Classe App possui 3 atributos booleans:<br>
+Admin True -> Fluxo Alternativo para bloquear, desbloquear e exibir Transações suspeitas<br>
+Debug -> Começar logado ou Começar na tela de login<br>
+Assessor -> Começar logado como Assessor (conta do Assessor, Email: assessor@hotmail.com | Senha: assessor<br>
+<br>
+Contas que podem ser utilizadas sem precisar cadastrar:<br>
+Email: augustobb@live.com      | Senha: pandorinhha<br>
+Email: gabs.gnt@hotmail.com    | Senha: carlinhos<br>
+Email: gribl88@gmail.com       | Senha: maya<br>
+Email: queiroz@fiap.com.br     | Senha: SouzaS<br>
+Email: thiagoyama@fiap.com.br  | Senha: fiap123<br>
 
 <h2 name="requisitos">⚙️ Requisitos</h2>
 
