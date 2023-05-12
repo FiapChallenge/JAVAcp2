@@ -15,6 +15,16 @@ public class Usuario {
     String nome, email, senha;
     ContaCorrente contaCorrente;
     ContaPoupanca contaPoupanca;
+    Boolean hasAssessor = false;
+
+    public Boolean hasAssessor() {
+        return hasAssessor;
+    }
+
+    public void setAssessor(Boolean hasAssessor) {
+        this.hasAssessor = hasAssessor;
+    }
+
     List<Investimento> investimentos = new ArrayList<Investimento>();
     List<String> transacoesSuspeitas = new ArrayList<String>();
 
@@ -67,6 +77,23 @@ public class Usuario {
 
     public ContaPoupanca getContaPoupanca() {
         return contaPoupanca;
+    }
+
+    public Usuario(String nome, String email, String senha) {
+        this.nome = nome;
+        this.email = email;
+        this.senha = senha;
+    }
+
+    public Usuario(String nome, String email, String senha, String fotopath) {
+        this.nome = nome;
+        this.email = email;
+        this.senha = senha;
+        this.fotopath = fotopath;
+        ImageIcon profile = new ImageIcon(fotopath);
+        Image image = profile.getImage();
+        Image newimg = image.getScaledInstance(80, 80, java.awt.Image.SCALE_SMOOTH);
+        this.foto = new ImageIcon(newimg);
     }
 
     public Usuario(String nome, String email, String senha, ContaCorrente contaCorrente) {
@@ -123,7 +150,8 @@ public class Usuario {
     }
 
     public Usuario(String nome, String email, String senha, ContaCorrente contaCorrente, ContaPoupanca contaPoupanca,
-            String fotopath, Boolean suspeito, Boolean bloqueado, List<String> transacoesSuspeitas) {
+            String fotopath, Boolean suspeito, Boolean bloqueado, List<String> transacoesSuspeitas,
+            Boolean hasAssessor) {
         this.nome = nome;
         this.email = email;
         this.senha = senha;
@@ -137,6 +165,7 @@ public class Usuario {
         this.suspeito = suspeito;
         this.bloqueado = bloqueado;
         this.transacoesSuspeitas = transacoesSuspeitas;
+        this.hasAssessor = hasAssessor;
     }
 
     public Usuario(String nome, String email, String senha, ContaCorrente contaCorrente, ContaPoupanca contaPoupanca,

@@ -14,6 +14,8 @@ import java.util.List;
 
 public class SistemaBancario {
     private List<Usuario> usuarios = new ArrayList<Usuario>();
+    private List<Assessor> assessores = new ArrayList<Assessor>();
+
     private List<ContaCorrente> contasCorrente = new ArrayList<ContaCorrente>();
     private List<ContaPoupanca> contasPoupanca = new ArrayList<ContaPoupanca>();
     private List<Boleto> boletos = new ArrayList<Boleto>();
@@ -25,6 +27,14 @@ public class SistemaBancario {
 
     public List<Investimento> getInvestimentos() {
         return investimentos;
+    }
+
+    public List<Assessor> getAssessores() {
+        return assessores;
+    }
+
+    public void addAssessor(Assessor assessor) {
+        assessores.add(assessor);
     }
 
     public void addUsuario(Usuario usuario) {
@@ -55,6 +65,11 @@ public class SistemaBancario {
         for (Usuario usuario : usuarios) {
             if (usuario.getEmail().equals(email)) {
                 return usuario;
+            }
+        }
+        for (Assessor assessor : assessores) {
+            if (assessor.getEmail().equals(email)) {
+                return assessor;
             }
         }
         return null;
@@ -205,18 +220,22 @@ public class SistemaBancario {
             addUsuario(new Usuario(row.get(0), row.get(1), row.get(2),
                     new ContaCorrente(row.get(3), Double.parseDouble(row.get(4))),
                     new ContaPoupanca(row.get(5), Double.parseDouble(row.get(6))), row.get(7),
-                    Boolean.parseBoolean(row.get(8)), Boolean.parseBoolean(row.get(9)), transacoesSuspeitas));
+                    Boolean.parseBoolean(row.get(8)), Boolean.parseBoolean(row.get(9)), transacoesSuspeitas,
+                    Boolean.parseBoolean(row.get(11))));
         }
     }
 
     public void saveData() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter("data.txt"))) {
             for (Usuario usuario : usuarios) {
+                if (usuario instanceof Assessor) {
+                    continue;
+                }
                 String row = usuario.getNome() + ";" + usuario.getEmail() + ";" + usuario.getSenha() + ";"
                         + usuario.getContaCorrente().getNumero() + ";" + usuario.getContaCorrente().getSaldo() + ";"
                         + usuario.getContaPoupanca().getNumero() + ";" + usuario.getContaPoupanca().getSaldo() + ";"
                         + usuario.getFotopath() + ";" + usuario.getSuspeito() + ";" + usuario.getBloqueado() + ";"
-                        + usuario.getTransacoesSuspeitas();
+                        + usuario.getTransacoesSuspeitas() + ";" + usuario.hasAssessor();
                 bw.write(row);
                 bw.newLine(); // write each line on a new line
             }

@@ -1,7 +1,8 @@
 INFO:
-Classe App possui 2 atributos booleans:
+Classe App possui 3 atributos booleans:
 Admin True -> Fluxo Alternativo para bloquear, desbloquear e exibir Transações suspeitas
 Debug -> Começar logado ou Começar na tela de login
+Assessor -> Começar logado como Assessor (conta do Assessor, Email: assessor@hotmail.com | Senha: assessor)
 
 Contas que podem ser utilizadas sem precisar cadastrar:
 Email: augustobb@live.com      | Senha: pandorinhha

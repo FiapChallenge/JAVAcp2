@@ -27,6 +27,14 @@
 | **Turma**        | 1TDSS                                 |
 | **More Info**    | [Pdf do Checkpoint](GFX/cp2.pdf)      |
 
+<h2 name="como-usar">🕹️ Como usar</h2>
+Classe com main: App.java
+
+Classe App possui 3 atributos booleans:
+Admin True -> Fluxo Alternativo para bloquear, desbloquear e exibir Transações suspeitas
+Debug -> Começar logado ou Começar na tela de login
+Assessor -> Começar logado como Assessor (conta do Assessor, Email: assessor@hotmail.com | Senha: assessor
+
 <h2 name="requisitos">⚙️ Requisitos</h2>
 
 Fluxo Básico
@@ -42,7 +50,7 @@ Fluxo Básico
 -   [x] O sistema registra as transações realizadas pelo usuário e atualiza o saldo da conta.
 -   [x] O usuário pode acessar serviços de assessoria financeira, como cálculo de impostos,
         planejamento de investimentos e análise de risco.
--   [ ] O assessor financeiro pode acessar a conta de um usuário e fornecer serviços de
+-   [x] O assessor financeiro pode acessar a conta de um usuário e fornecer serviços de
         assessoria financeira personalizados.
 
 Fluxo Alternativo

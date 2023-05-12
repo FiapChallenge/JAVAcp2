@@ -4,13 +4,16 @@ import javax.swing.UIManager;
 import br.com.fiap.models.*;
 
 public class App {
-    static boolean debug = true;
-    static boolean admin = true;
+    static boolean debugApp = true;
+    static boolean adminApp = true;
+    static boolean assessorApp = false;
 
     public static void main(String[] args) throws IOException {
         UIManager.put("Button.defaultButtonFollowsFocus", Boolean.TRUE);
         Usuario usuarioLogado = null;
         SistemaBancario sb = new SistemaBancario();
+        Assessor assessor = new Assessor("Assessor", "assessor@hotmail.com", "assessor", "GFX/profiles/assessor.png");
+        sb.addAssessor(assessor);
 
         /* -------------------------------------------------------------------------- */
         /* Adding Investimentos */
@@ -23,7 +26,7 @@ public class App {
         sb.addInvestimentoToList(new Investimento("Apple", 2500, 0.075, 40));
         sb.addInvestimentoToList(new Investimento("Google", 3000, 0.09, 50));
         sb.addInvestimentoToList(new Investimento("Facebook", 3500, 0.095, 60));
-        
+
         /* -------------------------------------------------------------------------- */
         /* Adding Usuarios */
         /* -------------------------------------------------------------------------- */
@@ -52,10 +55,10 @@ public class App {
         sb.loadData();
 
         /* -------------------------------------------------------------------------- */
-        /*                                 Fluxo Admin                                */
+        /* Fluxo Admin */
         /* -------------------------------------------------------------------------- */
-        
-        if (admin) {
+
+        if (adminApp) {
             Boolean voltar = false;
             while (voltar == false) {
                 int opcao = InterfaceAdmin.menu();
@@ -77,50 +80,76 @@ public class App {
         }
 
         /* -------------------------------------------------------------------------- */
-        /*                      Login and Entering Menu                               */
+        /* Login and Entering Menu */
         /* -------------------------------------------------------------------------- */
 
-        if (debug) {
-            usuarioLogado = sb.getUsuarios().get(0);
+        if (debugApp && !assessorApp) {
+            usuarioLogado = sb.getUsuarioByAccountNumber("123");
+        } else if (debugApp || assessorApp) {
+            usuarioLogado = sb.getAssessores().get(0);
         } else {
             usuarioLogado = Interface.login(sb);
         }
 
-
-        String menu = "1 - Depositar\n2 - Sacar\n3 - Transferir\n4 - Exibir Transações\n5 - Emitir/Pagar Boleto\n6 - Investimento\n7 - Serviço Assessoria\n8 - Trocar Conta\n9 - Sair\n\nEscolha uma opção:";
         while (true) {
-            int opcao = Interface.menu(menu, usuarioLogado);
-            switch (opcao + 1) {
-                case 1:
-                    Interface.depositar(usuarioLogado);
-                    break;
-                case 2:
-                    Interface.sacar(usuarioLogado);
-                    break;
-                case 3:
-                    Interface.transferir(usuarioLogado, sb);
-                    break;
-                case 4:
-                    Interface.relatorio(usuarioLogado);
-                    break;
-                case 5:
-                    Interface.boleto(usuarioLogado, sb);
-                    break;
-                case 6:
-                    Interface.investir(usuarioLogado, sb);
-                    break;
-                case 7:
-                    Interface.assessoria(usuarioLogado, sb);
-                    break;
-                case 8:
-                    usuarioLogado = Interface.login(sb);
-                    break;
-                case 9:
-                    sb.saveData();
-                    System.exit(0);
-                default:
-                    sb.saveData();
-                    System.exit(0);
+            while (!(usuarioLogado instanceof Assessor)) {
+                String menu = "1 - Depositar\n2 - Sacar\n3 - Transferir\n4 - Exibir Transações\n5 - Emitir/Pagar Boleto\n6 - Investimento\n7 - Serviço Assessoria\n8 - Trocar Conta\n9 - Sair\n\nEscolha uma opção:";
+                int opcao = Interface.menu(menu, usuarioLogado);
+                switch (opcao + 1) {
+                    case 1:
+                        Interface.depositar(usuarioLogado);
+                        break;
+                    case 2:
+                        Interface.sacar(usuarioLogado);
+                        break;
+                    case 3:
+                        Interface.transferir(usuarioLogado, sb);
+                        break;
+                    case 4:
+                        Interface.relatorio(usuarioLogado);
+                        break;
+                    case 5:
+                        Interface.boleto(usuarioLogado, sb);
+                        break;
+                    case 6:
+                        Interface.investir(usuarioLogado, sb);
+                        break;
+                    case 7:
+                        Interface.assessoria(usuarioLogado, sb);
+                        break;
+                    case 8:
+                        usuarioLogado = Interface.login(sb);
+                        break;
+                    case 9:
+                        sb.saveData();
+                        System.exit(0);
+                    default:
+                        sb.saveData();
+                        System.exit(0);
+                }
+            }
+            while (usuarioLogado instanceof Assessor) {
+                Assessor assessorLogado = (Assessor) usuarioLogado;
+                int opcao = InterfaceAssessor.menu(assessorLogado);
+                switch (opcao + 1) {
+                    case 1:
+                        usuarioLogado = InterfaceAssessor.listarClientes(assessorLogado, sb);
+                        if (usuarioLogado == null)
+                            usuarioLogado = assessorLogado;
+                        break;
+                    case 2:
+                        Interface.assessoria(usuarioLogado, sb);
+                        break;
+                    case 3:
+                        usuarioLogado = Interface.login(sb);
+                        break;
+                    case 4:
+                        sb.saveData();
+                        System.exit(0);
+                    default:
+                        sb.saveData();
+                        System.exit(0);
+                }
             }
         }
     }
