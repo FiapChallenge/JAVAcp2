@@ -76,7 +76,7 @@ public class InterfaceAssessor {
             if (linha == -1) {
                 JOptionPane.showMessageDialog(null, "Selecione um usuário para acessar a conta");
             } else {
-                Usuario usuario = sb.getUsuarios().get(linha);
+                Usuario usuario = users.get(linha);
                 return usuario;
             }
         }
@@ -85,7 +85,7 @@ public class InterfaceAssessor {
             if (linha == -1) {
                 JOptionPane.showMessageDialog(null, "Selecione um usuário para exibir as transações suspeitas");
             } else {
-                Usuario usuario = sb.getUsuarios().get(linha);
+                Usuario usuario = users.get(linha);
                 String[] columnNames2 = { "Horário", "Valor", "Tipo", "Conta Origem", "Conta Destino" };
                 if (usuario.getTransacoesSuspeitas().isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Não há transações suspeitas para este usuário");

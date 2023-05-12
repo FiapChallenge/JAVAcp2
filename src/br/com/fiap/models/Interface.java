@@ -500,10 +500,21 @@ public class Interface {
     }
 
     public static void assessoria(Usuario usuario, SistemaBancario sb) {
+        String[] assessoriaOptions;
+        if (usuario instanceof Assessor) {
+            assessoriaOptions = new String[] { "Calcular Impostos", "Planejamento de Investimento",
+                    "Análise de risco" };
+        } else if (usuario.hasAssessor()) {
+            assessoriaOptions = new String[] { "Calcular Impostos", "Planejamento de Investimento", "Análise de risco",
+                    "Bloquear Assessoria" };
+        } else {
+            assessoriaOptions = new String[] { "Calcular Impostos", "Planejamento de Investimento", "Análise de risco",
+                    "Contratar Assessoria" };
+        }
         int option = JOptionPane.showOptionDialog(null,
                 "Escolha uma opção:", "Banco FinHive", 0,
                 JOptionPane.QUESTION_MESSAGE, null,
-                new String[] { "Calcular Impostos", "Planejamento de Investimento", "Análise de risco" },
+                assessoriaOptions,
                 "Calcular Impostos");
         switch (option) {
             case 0:
@@ -514,6 +525,15 @@ public class Interface {
                 break;
             case 2:
                 analiseRisco(usuario, sb);
+                break;
+            case 3:
+                if (usuario.hasAssessor) {
+                    usuario.hasAssessor = false;
+                    JOptionPane.showMessageDialog(null, "Assessoria bloqueada com sucesso!");
+                } else {
+                    usuario.hasAssessor = true;
+                    JOptionPane.showMessageDialog(null, "Assessoria contratada com sucesso!");
+                }
                 break;
             default:
                 break;
@@ -598,7 +618,8 @@ public class Interface {
             dados[i][2] = Integer.toString(investimento.getPeriodoSegundos());
             dados[i][3] = "R$" + Double.toString(investimento.calcularTotal());
             dados[i][4] = "R$" + Double.toString(investimento.calcularTotal() - investimento.getValorInicial());
-            dados[i][5] = Integer.toString((int) Math.round(investimento.calcularTotal() / investimento.getValorInicial() * 100.0)) + "%";
+            dados[i][5] = Integer.toString(
+                    (int) Math.round(investimento.calcularTotal() / investimento.getValorInicial() * 100.0)) + "%";
             i++;
         }
         JTable tabela = new JTable(dados, colunas);
@@ -625,6 +646,6 @@ public class Interface {
 
     public static void analiseRisco(Usuario usuario, SistemaBancario sb) {
         JOptionPane.showMessageDialog(null, "Investimentos do Banco FinHive são a prova de risco!");
-        
+
     }
 }
