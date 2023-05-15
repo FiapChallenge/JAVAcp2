@@ -608,7 +608,6 @@ public class Interface {
     }
 
     public static void planejamentoInvestimento(Usuario usuario, SistemaBancario sb) {
-        // crie de novo a tabela de investimento mas dessa vez com o lucro
         String[] colunas = { "Nome", "Valor", "Período (s)", "Resgate Total", "Lucro", "Resgate %" };
         Object[][] dados = new Object[sb.getInvestimentos().size()][colunas.length];
         int i = 0;
@@ -637,7 +636,6 @@ public class Interface {
         }
         tabela.setDefaultEditor(Object.class, null);
         JScrollPane scrollPane = new JScrollPane(tabela);
-        // aumentar apenas a largura
         scrollPane.setPreferredSize(new Dimension(scrollPane.getPreferredSize().width + 200,
                 scrollPane.getPreferredSize().height + 20));
         JOptionPane.showMessageDialog(null, scrollPane, "Banco FinHive", JOptionPane.PLAIN_MESSAGE, null);
@@ -645,7 +643,7 @@ public class Interface {
     }
 
     public static void analiseRisco(Usuario usuario, SistemaBancario sb) {
-        JOptionPane.showMessageDialog(null, "Investimentos do Banco FinHive são a prova de risco!");
+        JOptionPane.showMessageDialog(null, "Investimentos do Banco FinHive são a prova de risco!\nExceto sair do app durante o investimento, isso é arriscado!\nNeste caso, o investimento será cancelado e o dinheiro inicial será devolvido ao usuário.\nA devolução será feita na conta poupança, exceto apenas se essa não exista!\n\nObrigado por escolher o Banco FinHive!");
 
     }
 }

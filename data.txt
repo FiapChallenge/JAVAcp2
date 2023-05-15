@@ -1,7 +1,8 @@
-Asteriuz;augustobb@live.com;pandorinha;123;104750.0;10;7000.0;GFX/profiles/asteriuz.png;true;false;[19:43:39|3000.0|Transferencia feita|123|789, 19:43:56|3000.0|Transferencia feita|123|789, 19:44:46|2000.0|Transferencia feita|123|456];true
+Asteriuz;augustobb@live.com;pandorinha;123;104750.0;10;7000.0;GFX/profiles/asteriuz.png;true;false;[19:43:39|3000.0|Transferencia feita|123|789, 19:43:56|3000.0|Transferencia feita|123|789, 19:44:46|2000.0|Transferencia feita|123|456, 17:52:24|10000.0|Transferencia recebida|454|123];true
 Gabriela;gabs.gnt@hotmail.com;carlinhos;456;28100.0;20;6000.0;GFX/profiles/gabs.png;true;false;[19:44:46|2000.0|Transferencia recebida|123|456];true
 Gabs;gribl88@gmail.com;maya;789;7600.0;30;1000.0;GFX/profiles/gribl.png;true;true;[19:43:56|3000.0|Transferencia recebida|123|789];false
 Queiroz;queiroz@fiap.com.br;SouzaS;101112;5000.0;40;2000.0;GFX/profiles/queiroz.png;true;false;[];false
 Thiago;thiagoyama@fiap.com.br;fiap123;001;10000.0;50;200000.0;GFX/profiles/thiago.png;false;false;[];true
 Augusto;gutocebola@gmail.com;pandorinha;424;13000.0;508;2000.0;GFX/profiles/defaultAvatar.png;false;true;[];false
 teste;teste;teste;983;2000.0;632;0.0;GFX/profiles/defaultAvatar.png;true;false;[];false
+Orlando;orlandobarrosvascular@gmail.com;Augusto18#;454;30000.0;631;65000.0;C:\Users\augus\Downloads\apolo.jpg;true;false;[17:52:24|10000.0|Transferencia feita|454|123];false

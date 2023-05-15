@@ -226,6 +226,20 @@ public class SistemaBancario {
     }
 
     public void saveData() {
+        for (Usuario usuario: usuarios) {
+            if (usuario instanceof Assessor) {
+                continue;
+            }
+            investimentos = usuario.getInvestimentos();
+            for (Investimento investimento : investimentos) {
+                if (usuario.getContaPoupanca() != null) {
+                    usuario.getContaPoupanca().depositar(investimento.getValorInicial());
+                } else {
+                    usuario.getContaCorrente().depositar(investimento.getValorInicial());
+                }
+                
+            }
+        }
         try (BufferedWriter bw = new BufferedWriter(new FileWriter("data.txt"))) {
             for (Usuario usuario : usuarios) {
                 if (usuario instanceof Assessor) {

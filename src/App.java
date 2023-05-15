@@ -4,8 +4,8 @@ import javax.swing.UIManager;
 import br.com.fiap.models.*;
 
 public class App {
-    static boolean debugApp = true;
-    static boolean adminApp = true;
+    static boolean debugApp = false;
+    static boolean adminApp = false;
     static boolean assessorApp = false;
 
     public static void main(String[] args) throws IOException {
