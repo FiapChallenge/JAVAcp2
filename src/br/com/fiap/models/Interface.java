@@ -644,6 +644,5 @@ public class Interface {
 
     public static void analiseRisco(Usuario usuario, SistemaBancario sb) {
         JOptionPane.showMessageDialog(null, "Investimentos do Banco FinHive são a prova de risco!\nExceto sair do app durante o investimento, isso é arriscado!\nNeste caso, o investimento será cancelado e o dinheiro inicial será devolvido ao usuário.\nA devolução será feita na conta poupança, exceto apenas se essa não exista!\n\nObrigado por escolher o Banco FinHive!");
-
     }
 }
